@@ -1,0 +1,19 @@
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: rgb(147 197 253);
+  border: 2px solid white;
+  border-radius: 9999px;
+  flex-shrink: 0;
+  margin-right: 16px;
+}
+.large {
+  margin: 32px;
+  width: 200px;
+  height: 200px;
+  font-size: 80px;
+  border: 5px solid white;
+}

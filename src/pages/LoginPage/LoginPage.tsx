@@ -1,0 +1,61 @@
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { loginUserRequest } from '../../store/actions'
+import { checkIsAuth } from '../../store/selectors'
+import './LoginPage.css'
+
+export const LoginPage = () => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  // const status = useSelector(getStatus)
+  const dispatch = useDispatch()
+  const isAuth = useSelector(checkIsAuth)
+  const navigate = useNavigate()
+
+  const typingUsername = useCallback((e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value), [])
+
+  const typingPassword = useCallback((e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value), [])
+
+  const handleSubmit = useCallback(() => {
+    try {
+      dispatch(loginUserRequest({ username, password }))
+    } catch (error) {
+      console.log(error)
+    }
+  }, [dispatch, password, username])
+
+  useEffect(() => {
+    //   if (status) toast(status)
+    if (isAuth) navigate('/')
+  }, [isAuth, navigate])
+
+  return (
+    <form onSubmit={(e) => e.preventDefault()} className="login-container">
+      <h1 className="login-title">Authorization</h1>
+      <label className="login-label">
+        Username:
+        <input type="text" value={username} onChange={typingUsername} placeholder="Username" className="login-input" />
+      </label>
+      <label className="login-label">
+        Password:
+        <input
+          type="password"
+          value={password}
+          onChange={typingPassword}
+          placeholder="Password"
+          className="login-input"
+        />
+      </label>
+      <div className="login-actions">
+        <button type="submit" onClick={handleSubmit} className="login-actions-button">
+          Login
+        </button>
+        <Link to={'/register'} className="login-actions-link">
+          Registration
+        </Link>
+      </div>
+    </form>
+  )
+}

@@ -1,0 +1,77 @@
+.add-post-form {
+    width: 33.33%;
+    margin: auto;
+    padding: 40px 0;
+}
+.add-post-label-img {
+    color: lightgray;
+    padding: 8px 0;
+    background: dimgray;
+     margin-top: 8px;
+     display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+     border-style: dotted;
+}
+.add-post-label-img > input {
+    display: none;
+}
+.add-post-label {
+    color: white;
+    opacity: 70;
+}
+.add-post-img {
+    width: 100%;
+    padding: 8px 0;
+ }
+.add-post-img > img {
+     display: flex;
+    width: inherit;
+ }
+.add-post-input {
+      margin-top: 4px;
+    color: black;
+    width: 100%;
+    border-radius: 8px;
+    background: gray;
+      border-width: 1px;
+      padding: 4px 8px;
+    outline: none;
+}
+.add-post-input::placeholder {
+    color: dimgray;
+}
+
+.add-post-textarea {
+     margin-top: 4px;
+     color: black;
+     width: 100%;
+     border-radius: 8px;
+     background: gray;
+     border-width: 1px;
+     padding: 4px 8px;
+     outline: none;
+    resize: none;
+    height: 160px;
+}
+.add-post-textarea::placeholder {
+    color: dimgray;
+}
+.add-post-actions {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+}
+.add-post-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: gray;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    padding: 8px 16px;
+}

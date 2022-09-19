@@ -1,0 +1,40 @@
+.comment {
+    display: flex;
+    justify-content: space-between;
+}
+.comment-container {
+    display: flex;
+    gap: 12px;
+}
+.comment-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background: rgb(147 197 253);
+    border-radius: 9999px;
+    flex-shrink: 0;
+}
+.comment-text {
+    display: flex;
+    color: rgb(209 213 219);
+    word-break: break-all;
+    width: 150px;
+    font-size: 14px;
+}
+
+.comment-date {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 10px;
+    color: gray;
+}
+.comment-delete {
+    background: transparent;
+    border: none;
+    font-size: 10px;
+    color: white;
+    cursor: pointer;
+}

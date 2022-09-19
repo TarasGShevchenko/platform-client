@@ -1,0 +1,29 @@
+.users-container {
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+}
+
+.search-input {
+  margin: 16px;
+  width: 30%;
+  min-height: 50px;
+  padding: 10px 10px;
+  font-size: 18px;
+}
+.user-item {
+  cursor: pointer;
+  width: 50%;
+  margin: 12px auto;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  border: 1px solid white;
+  border-radius: 15px;
+  background: #06062390;
+}

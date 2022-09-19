@@ -1,0 +1,27 @@
+.no-posts {
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+.main-container {
+    width: 100%;
+    padding: 10px;
+    margin: auto;
+}
+.main-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+.posts {
+    display: flex;
+    flex-direction: column;
+}
+
+.popular-container {
+    color: white;
+    text-transform: uppercase;
+}
+.popular {
+    color: white;
+    text-transform: uppercase;
+}
