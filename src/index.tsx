@@ -6,11 +6,16 @@ import './index.css'
 import App from './App'
 import store from './store'
 import { initialize } from './store/actions'
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient()
 
 const mainApp = (
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
     </Provider>
   </BrowserRouter>
 )

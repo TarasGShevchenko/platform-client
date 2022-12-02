@@ -9,28 +9,26 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { getCurrentPostRequest } from '../../store/actions'
-import { getCurrentPost } from '../../store/selectors'
+import { getCurrentPost, tokenSelector } from '../../store/selectors'
 import './PostPage.css'
+import { PostApi } from '../../api'
 
 export const PostPage = () => {
   const [comment, setComment] = useState('')
 
-  // const user = useSelector(getUser)
+  const token = useSelector(tokenSelector)
   const post = useSelector(getCurrentPost)
   // const comments = useSelector(getComments)
   const navigate = useNavigate()
   const { id } = useParams()
   const dispatch = useDispatch()
-  console.log(id)
-  const removePostHandler = useCallback(() => {
-    try {
-      // id && dispatch(removePost(id))
-      toast('Post was deleted')
-      navigate('/posts')
-    } catch (error) {
-      console.log(error)
-    }
-  }, [navigate])
+
+  const removePostHandler = useCallback(async () => {
+    id && (await PostApi.deletePost(id, token))
+    // id && dispatch(deleteCurrentPostRequest({ id }))
+    toast('Post was deleted')
+    navigate('/posts')
+  }, [id, navigate, token])
 
   // const handleSubmit = useCallback(() => {
   //   try {

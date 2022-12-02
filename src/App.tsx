@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import { useDispatch } from 'react-redux'
 import 'react-toastify/dist/ReactToastify.css'
 
-import { Layout } from './components/Layout'
 import { MainPage } from './pages/MainPage'
 import { PostsPage } from './pages/PostsPage'
 import { PostPage } from './pages/PostPage'
@@ -12,18 +10,14 @@ import { EditPostPage } from './pages/EditPostPage'
 import { AddPostPage } from './pages/AddPostPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { LoginPage } from './pages/LoginPage'
-// import { getMeRequest } from './store/actions'
 import { ProfilePage } from './pages/ProfilePage'
 import { UsersPage } from './pages/UsersPage'
+import { Navbar } from './components/Navbar'
 
 function App() {
-  const dispatch = useDispatch()
-  const token = window.localStorage.getItem('token')
-  useEffect(() => {
-    // token && dispatch(getMeRequest())
-  }, [dispatch, token])
   return (
-    <Layout>
+    <>
+      <Navbar />
       <Routes>
         <Route path={'/'} element={<MainPage />} />
         <Route path={'posts'} element={<PostsPage />} />
@@ -37,7 +31,7 @@ function App() {
       </Routes>
 
       <ToastContainer />
-    </Layout>
+    </>
   )
 }
 

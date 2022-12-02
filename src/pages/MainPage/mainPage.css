@@ -4,9 +4,13 @@
     padding: 10px;
 }
 .main-container {
-    width: 100%;
-    padding: 10px;
+    width: 50%;
     margin: auto;
+    padding-top: 1rem; /* 16px */
+    padding-bottom: 1rem; /* 16px */
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem; /* 40px */
 }
 .main-wrapper {
     display: flex;

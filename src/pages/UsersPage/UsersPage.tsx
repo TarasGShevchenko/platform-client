@@ -24,14 +24,28 @@ export const UsersPage = () => {
   if (!users) return <div>Loading...</div>
   return (
     <div className="users-container">
-      <input type="text" className="search-input" value={value} placeholder="Type username" onChange={changeHandle} />
-      {users.map((user) => (
-        <div key={user.id} className="user-item">
-          <Avatar username={user.username} />
-          <div>{user.username}</div>
-          <Moment date={user.createdAt} format={'MMM Do YY'} />
-        </div>
-      ))}
+      <input
+        type="text"
+        className="search-input"
+        value={value}
+        placeholder="Type username..."
+        onChange={changeHandle}
+      />
+      <div className="user-list">
+        {users.map((user) => (
+          <div key={user.id} className="user-item">
+            <Avatar username={user.username} />
+            <div className="user-content">
+              <div className="user-username">{user.username}</div>
+              <Moment className="user-created" date={user.createdAt} format={'MMM Do YY'} />
+            </div>
+            <div className="rang">
+              <small>#</small>
+              {user.id}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

@@ -6,13 +6,14 @@ import { toast } from 'react-toastify'
 import { logout } from '../../store/actions'
 import { checkIsAuth } from '../../store/selectors'
 import './Navbar.css'
+import { Link } from '../../enums'
 
 export const Navbar = () => {
   const isAuth = useSelector(checkIsAuth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const activeStyles = {
-    color: 'white',
+    opacity: 1,
   }
 
   const handleLogin = useCallback(() => {
@@ -28,38 +29,56 @@ export const Navbar = () => {
 
   return (
     <div className="navbar-container">
-      <span className="logo">E</span>
+      <span className="logo">Platform</span>
       {isAuth && (
         <ul className="navbar-ul">
-          <li>
-            <NavLink to={'/'} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
-              Home
+          <li className="navbar-list">
+            <NavLink to={Link.home} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
+              <span className="navbar-icon">
+                <span className="material-symbols-outlined">home</span>
+              </span>
             </NavLink>
           </li>
-          <li>
-            <NavLink to={'/posts'} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
-              Posts
+          <li className="navbar-list">
+            <NavLink to={Link.posts} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
+              <span className="navbar-icon">
+                <span className="material-symbols-outlined">image</span>
+              </span>
             </NavLink>
           </li>
-          <li>
-            <NavLink to={'/new'} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
-              Add Posts
+          <li className="navbar-list">
+            <NavLink to={Link.new} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
+              <span className="navbar-icon">
+                <span className="material-symbols-outlined">add_a_photo</span>
+              </span>
             </NavLink>
           </li>
-          <li>
-            <NavLink to={'/users'} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
-              Users
+          <li className="navbar-list">
+            <NavLink to={Link.users} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
+              <span className="navbar-icon">
+                <span className="material-symbols-outlined">group</span>
+              </span>
             </NavLink>
           </li>
-          <li>
-            <NavLink to={'/profile'} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
-              Profile
+          <li className="navbar-list">
+            <NavLink to={Link.profile} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
+              <span className="navbar-icon">
+                <span className="material-symbols-outlined">account_circle</span>
+              </span>
             </NavLink>
           </li>
         </ul>
       )}
       <div className="navbar-button">
-        {isAuth ? <button onClick={handleLogout}>Log out</button> : <button onClick={handleLogin}>Log in</button>}
+        {isAuth ? (
+          <div className="navbar-action" onClick={handleLogout}>
+            Log out
+          </div>
+        ) : (
+          <div className="navbar-action" onClick={handleLogin}>
+            Log in
+          </div>
+        )}
       </div>
     </div>
   )

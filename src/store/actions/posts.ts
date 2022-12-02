@@ -28,3 +28,12 @@ export const {
   IPost,
   unknown
 >()
+export const {
+  request: deleteCurrentPostRequest,
+  success: deleteCurrentPostSuccess,
+  failure: deleteCurrentPostFailure,
+} = createAsyncAction(
+  '@@post/deleteCurrentPostRequest',
+  '@@post/deleteCurrentPostSuccess',
+  '@@post/deleteCurrentPostFailure',
+)<{ id: string }, void, unknown>()

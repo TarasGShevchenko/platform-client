@@ -10,3 +10,20 @@ body {
     background: linear-gradient(to right, #060623, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     min-height: 100vh;
 }
+body::before {
+    content: '';
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(#ffc107, #e91e63);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+    box-shadow: 0 0 20px 13px #ffffff;
+}
+::-webkit-scrollbar {
+    width: 0; /* ширина для вертикального скролла */
+    height: 0; /* высота для горизонтального скролла */
+}

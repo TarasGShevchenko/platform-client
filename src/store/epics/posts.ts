@@ -7,6 +7,8 @@ import { RootEpic } from '../types'
 import {
   createPostRequest,
   createPostSuccess,
+  deleteCurrentPostRequest,
+  deleteCurrentPostSuccess,
   getAllPostsRequest,
   getAllPostsSuccess,
   getCurrentPostRequest,
@@ -51,4 +53,17 @@ export const CreatePostEpic: RootEpic = (action$, state$, { PostApi }) => {
   )
 }
 
-export default [GetAllPostsEpic, GetPostByIdEpic, CreatePostEpic]
+export const DeletePostEpic: RootEpic = (action$, state$, { PostApi }) => {
+  return action$.pipe(filter(isActionOf(deleteCurrentPostRequest))).pipe(
+    switchMap(async ({ payload: { id } }) => {
+      await PostApi.deletePost(id, state$.value.auth.token)
+      return deleteCurrentPostSuccess()
+    }),
+    catchError((err) => {
+      toast.error(err)
+      return EMPTY
+    }),
+  )
+}
+
+export default [GetAllPostsEpic, GetPostByIdEpic, CreatePostEpic, DeletePostEpic]
