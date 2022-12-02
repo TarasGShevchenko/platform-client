@@ -1,19 +1,16 @@
-import React, { ChangeEvent } from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
-import { useCallback } from 'react'
+import React, { ChangeEvent, useCallback, useState, useEffect, FormEventHandler } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AiTwotoneEdit, AiFillDelete } from 'react-icons/ai'
 import Moment from 'react-moment'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { useQuery } from 'react-query'
 
 import { CommentItem } from '../../components/CommentItem'
 import { getCurrentPostRequest } from '../../store/actions'
 import { getCurrentPost, getUser, tokenSelector } from '../../store/selectors'
 import './PostPage.css'
 import { CommentsApi, PostApi } from '../../api'
-import { useQuery } from 'react-query'
 import { Loader } from '../../components/Loader'
 
 export const PostPage = () => {
@@ -21,40 +18,36 @@ export const PostPage = () => {
   const token = useSelector(tokenSelector)
   const post = useSelector(getCurrentPost)
   const user = useSelector(getUser)
-  // const comments = useSelector(getComments)
   const navigate = useNavigate()
   const { id } = useParams()
   const dispatch = useDispatch()
-  const { data: comments, isLoading } = useQuery(
-    'comments',
-    () => post && CommentsApi.getPostComments(post.id.toString(), token).then((res) => res),
-  )
+  const {
+    data: comments,
+    isLoading,
+    refetch,
+  } = useQuery('comments', () => post && CommentsApi.getPostComments(post.id.toString(), token).then((res) => res))
 
   const removePostHandler = useCallback(async () => {
     id && (await PostApi.deletePost(id, token))
-    // id && dispatch(deleteCurrentPostRequest({ id }))
     toast('Post was deleted')
     navigate('/posts')
   }, [id, navigate, token])
 
-  const addCommentHandler = useCallback(
-    async (e: any) => {
-      e.preventDefault()
-      if (id && post && user) {
-        try {
-          const data = new FormData()
-          data.append('content', comment)
-          data.append('userId', user.id.toString())
-          data.append('postId', id)
+  const addCommentHandler = useCallback(async () => {
+    if (id && post && user) {
+      try {
+        const data = new FormData()
+        data.append('content', comment)
+        data.append('userId', user.id.toString())
+        data.append('postId', id)
 
-          await CommentsApi.createComment(data, token)
-        } catch (error) {
-          console.log(error)
-        }
+        await CommentsApi.createComment(data, token)
+        refetch()
+      } catch (error) {
+        console.log(error)
       }
-    },
-    [comment, id, post, token, user],
-  )
+    }
+  }, [comment, id, post, refetch, token, user])
 
   const goToEdit = useCallback(() => navigate(`/posts/${id}/edit`), [id, navigate])
   const typingComment = useCallback((e: ChangeEvent<HTMLInputElement>) => setComment(e.target.value), [])
@@ -63,10 +56,6 @@ export const PostPage = () => {
     id && dispatch(getCurrentPostRequest({ id }))
   }, [dispatch, id])
 
-  // useEffect(() => {
-  //   id && dispatch(getPostCommentsRequest(id))
-  // }, [dispatch, id])
-
   if (!post) return <Loader />
 
   return (
@@ -74,7 +63,9 @@ export const PostPage = () => {
       <div className="post-wrapper">
         <div className="post-wrapper-photo-container">
           <div className={post.image ? 'post-wrapper-photo' : 'post-wrapper-photo empty'}>
-            {post.image && <img src={`http://localhost:8000/${post.image}`} alt="img" className="post-wrapper-img" />}
+            {post.image && (
+              <img src={`${process.env.REACT_APP_API_URL}${post.image}`} alt="img" className="post-wrapper-img" />
+            )}
           </div>
         </div>
         <div className="post-wrapper-info">
@@ -114,14 +105,14 @@ export const PostPage = () => {
             className="post-comment-input"
           />
           <button type="submit" className="post-comment-button">
-            Отправить
+            Submit
           </button>
         </form>
 
         {isLoading || !comments ? (
           <Loader />
         ) : (
-          comments.map((cmt) => <CommentItem key={cmt.id} id={cmt.id} content={cmt.content} userId={cmt.userId} />)
+          comments.map((cmt) => <CommentItem key={cmt.id} comment={cmt} func={refetch} />)
         )}
       </div>
     </div>

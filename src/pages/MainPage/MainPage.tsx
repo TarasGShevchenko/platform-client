@@ -15,13 +15,9 @@ export const MainPage = () => {
 
   return (
     <div className="main-container">
-      <div className="main-wrapper">
-        <div className="posts">
-          {data.map((post, idx) => (
-            <PostItem key={idx} post={post} username={post.author.username} />
-          ))}
-        </div>
-      </div>
+      {data.map((post, idx) => (
+        <PostItem key={idx} post={post} username={post.author.username} />
+      ))}
     </div>
   )
 }

@@ -46,7 +46,7 @@ export const EditPostPage = () => {
       {/*)}*/}
       <div className="edit-post-img">
         {/*{empty ? (*/}
-        {/*  <img src={`http://localhost:3002/${post?.imgUrl}`} alt={post?.imgUrl} />*/}
+        {/*  <img src={`${process.env.REACT_APP_API_URL}${post?.imgUrl}`} alt={post?.imgUrl} />*/}
         {/*) : (*/}
 
         {/*  <img src={URL.createObjectURL(image)} alt={image.name} />*/}

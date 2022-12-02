@@ -12,12 +12,11 @@ import { RegisterPage } from './pages/RegisterPage'
 import { LoginPage } from './pages/LoginPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { UsersPage } from './pages/UsersPage'
-import { Navbar } from './components/Navbar'
+import { Layout } from './components/Layout'
 
 function App() {
   return (
-    <>
-      <Navbar />
+    <Layout>
       <Routes>
         <Route path={'/'} element={<MainPage />} />
         <Route path={'posts'} element={<PostsPage />} />
@@ -31,7 +30,7 @@ function App() {
       </Routes>
 
       <ToastContainer />
-    </>
+    </Layout>
   )
 }
 

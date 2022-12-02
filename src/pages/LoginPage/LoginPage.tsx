@@ -9,7 +9,6 @@ import './LoginPage.css'
 export const LoginPage = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  // const status = useSelector(getStatus)
   const dispatch = useDispatch()
   const isAuth = useSelector(checkIsAuth)
   const navigate = useNavigate()
@@ -27,7 +26,6 @@ export const LoginPage = () => {
   }, [dispatch, password, username])
 
   useEffect(() => {
-    //   if (status) toast(status)
     if (isAuth) navigate('/')
   }, [isAuth, navigate])
 

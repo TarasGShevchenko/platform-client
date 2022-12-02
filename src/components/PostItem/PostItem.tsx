@@ -20,7 +20,9 @@ export const PostItem: FC<PostItemProps> = ({ post, username }) => {
     <Link to={`/posts/${post.id}`} className="post-item-link">
       <div className="post-item-container">
         <div className={post.image ? 'post-item-photo' : 'post-item-photo empty'}>
-          {post.image && <img src={`http://localhost:8000/${post.image}`} alt="img" className="post-item-img" />}
+          {post.image && (
+            <img src={`${process.env.REACT_APP_API_URL}${post.image}`} alt="img" className="post-item-img" />
+          )}
         </div>
         <div className="post-item-info">
           <div className="post-item-info-user">

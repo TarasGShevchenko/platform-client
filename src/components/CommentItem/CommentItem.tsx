@@ -1,33 +1,31 @@
 import React, { FC, useCallback } from 'react'
 import Moment from 'react-moment'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { getUser, getUsersSelector, tokenSelector } from '../../store/selectors'
 import './CommentItem.css'
 import { IComment } from '../../store/types'
 import { CommentsApi } from '../../api'
+import { Avatar } from '../Avatar'
 
-export const CommentItem: FC<Partial<IComment>> = ({ id, content, userId, postId, createdAt }) => {
+interface IProps {
+  comment: Partial<IComment>
+  func: () => void
+}
+export const CommentItem: FC<IProps> = ({ comment: { id, content, userId, postId, createdAt }, func }) => {
   const user = useSelector(getUser)
   const users = useSelector(getUsersSelector)
   const token = useSelector(tokenSelector)
-  const avatar = users
-    .find((us) => us.id === userId)
-    ?.username.toUpperCase()
-    .split('')
-    .slice(0, 2)
-  const deleteComment = useCallback(
-    async (e: any) => {
-      e.preventDefault()
-      id && (await CommentsApi.deleteComment(id.toString(), token))
-    },
-    [id, token],
-  )
+  const currentUser = users.find((us) => us.id === userId)
+  const deleteComment = useCallback(async () => {
+    id && (await CommentsApi.deleteComment(id.toString(), token))
+    func()
+  }, [func, id, token])
 
   return (
     <div className="comment">
       <div className="comment-container">
-        <div className="comment-avatar">{avatar}</div>
+        {currentUser && <Avatar username={currentUser?.username} />}
         <div className="comment-text">{content}</div>
       </div>
       <div className="comment-date">

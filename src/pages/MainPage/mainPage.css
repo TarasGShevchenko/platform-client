@@ -4,21 +4,12 @@
     padding: 10px;
 }
 .main-container {
-    max-width: 800px;
     margin: auto;
     padding-top: 1rem; /* 16px */
     padding-bottom: 1rem; /* 16px */
     display: flex;
     flex-direction: column;
     gap: 2.5rem; /* 40px */
-}
-.main-wrapper {
-    display: flex;
-    justify-content: space-around;
-}
-.posts {
-    display: flex;
-    flex-direction: column;
 }
 
 .popular-container {
