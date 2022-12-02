@@ -1,5 +1,5 @@
 .posts-container {
-    width: 50%;
+    max-width: 800px;
     margin: auto;
     padding-top: 1rem; /* 16px */
     padding-bottom: 1rem; /* 16px */

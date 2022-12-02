@@ -31,6 +31,14 @@ export type IPost = {
   createdAt: string
   updatedAt: string
 }
+export type IComment = {
+  id: number
+  content: string
+  userId: number
+  postId: number
+  createdAt: string
+  updatedAt: string
+}
 
 export type IRole = {
   id: number

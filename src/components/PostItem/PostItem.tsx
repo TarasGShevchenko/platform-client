@@ -32,9 +32,9 @@ export const PostItem: FC<PostItemProps> = ({ post, username }) => {
             {/*&nbsp;{post.likes > 0 && post.likes}*/}
           </div>
           <div className="post-item-info-date">
-            <Moment date={post.createdAt} format="D MMM YYYY" />
+            <Moment date={post.updatedAt} format="D MMM YYYY" />
             <br />
-            <Moment date={post.createdAt} format="h:mm a " style={{ fontSize: 12 }} />
+            <Moment date={post.updatedAt} format="h:mm a " style={{ fontSize: 12 }} />
           </div>
         </div>
         <div className="post-item-title">{post.title}</div>
