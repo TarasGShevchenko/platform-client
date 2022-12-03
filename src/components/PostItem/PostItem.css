@@ -22,11 +22,9 @@
 .post-item-container {
     display: flex;
     flex-direction: column;
-    margin: 16px auto;
 }
 .post-item-photo {
     display: flex;
-    height: 320px;
     border-radius: 2px;
 }
 .post-item-photo.empty {

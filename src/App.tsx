@@ -12,6 +12,7 @@ import { LoginPage } from './pages/LoginPage'
 import { ProfilePage } from './pages/ProfilePage'
 import { UsersPage } from './pages/UsersPage'
 import { Layout } from './components/Layout'
+import { BackgroundAnimation } from './components/BackgroundAnimation'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path={'users'} element={<UsersPage />} />
       </Routes>
 
+      <BackgroundAnimation />
       <ToastContainer />
     </Layout>
   )

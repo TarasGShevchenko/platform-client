@@ -46,7 +46,6 @@
 .post-wrapper-photo {
   border-radius: 2px;
   display: flex;
-  height: 320px;
 }
 .post-wrapper-photo.empty {
   border-radius: 2px;
@@ -135,7 +134,7 @@
 }
 .post-comment-container {
   width: 100%;
-  max-height: 400px;
+  max-height: 320px;
   padding: 10px 20px;
   background: transparent;
   display: flex;

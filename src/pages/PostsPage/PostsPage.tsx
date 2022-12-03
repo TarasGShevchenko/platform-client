@@ -21,9 +21,11 @@ export const PostsPage = () => {
 
   return (
     <div className="posts-container">
-      {data.map((post, idx) => (
-        <PostItem post={post} key={idx} username={user?.username || 'de'} />
-      ))}
+      {data
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .map((post, idx) => (
+          <PostItem post={post} key={idx} username={user?.username || 'de'} />
+        ))}
     </div>
   )
 }

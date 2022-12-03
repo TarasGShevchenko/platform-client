@@ -2,7 +2,7 @@ import React, { ChangeEvent, useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Moment from 'react-moment'
 
-import { filteredUsers } from '../../store/selectors'
+import { filteredUsers, usersFilterSelector } from '../../store/selectors'
 import { Avatar } from '../../components/Avatar'
 import { setUsersFilter } from '../../store/actions'
 
@@ -10,8 +10,9 @@ import './UsersPage.css'
 import { useNavigate } from 'react-router-dom'
 
 export const UsersPage = () => {
-  const [value, setValue] = useState('')
   const users = useSelector(filteredUsers)
+  const filter = useSelector(usersFilterSelector)
+  const [value, setValue] = useState(filter || '')
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
