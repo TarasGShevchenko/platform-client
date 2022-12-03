@@ -1,6 +1,5 @@
 import { createAction, createAsyncAction } from 'typesafe-actions'
 
-// export const isCheckAuth = createAction('@auth/isCheckAuth')()
 export const {
   request: loginUserRequest,
   success: loginUserSuccess,

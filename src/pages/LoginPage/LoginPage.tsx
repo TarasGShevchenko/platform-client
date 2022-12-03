@@ -44,6 +44,7 @@ export const LoginPage = () => {
           onChange={typingPassword}
           placeholder="Password"
           className="login-input"
+          autoComplete="on"
         />
       </label>
       <div className="login-actions">

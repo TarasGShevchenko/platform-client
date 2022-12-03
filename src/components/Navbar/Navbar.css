@@ -5,7 +5,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 0 10px;
   height: 80px;
   z-index: 9999;
   background: #000000; /* fallback for old browsers */
@@ -50,11 +50,12 @@
   backdrop-filter: blur(15px);
 }
 .navbar-icon {
-  font-size: 2.2em;
+  font-size: 1.5em;
   pointer-events: none;
   opacity: 0.25;
   transition: 0.5s;
-  padding: 5px 15px;
+  padding: 10px 15px 0 15px;
+  color: #fff;
 }
 
 .navbar-button:hover .navbar-action,

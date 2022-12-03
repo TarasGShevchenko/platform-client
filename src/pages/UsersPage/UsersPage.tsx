@@ -7,11 +7,13 @@ import { Avatar } from '../../components/Avatar'
 import { setUsersFilter } from '../../store/actions'
 
 import './UsersPage.css'
+import { useNavigate } from 'react-router-dom'
 
 export const UsersPage = () => {
   const [value, setValue] = useState('')
   const users = useSelector(filteredUsers)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const changeHandle = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -19,6 +21,13 @@ export const UsersPage = () => {
       setValue(e.currentTarget.value)
     },
     [dispatch],
+  )
+
+  const goToThisUser = useCallback(
+    (username: string) => {
+      navigate(`/profile/${username}`)
+    },
+    [navigate],
   )
 
   if (!users) return <div>Loading...</div>
@@ -33,7 +42,7 @@ export const UsersPage = () => {
       />
       <div className="user-list">
         {users.map((user) => (
-          <div key={user.id} className="user-item">
+          <div key={user.id} className="user-item" onClick={() => goToThisUser(user.username)}>
             <Avatar username={user.username} />
             <div className="user-content">
               <div className="user-username">{user.username}</div>

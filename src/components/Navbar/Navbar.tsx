@@ -1,15 +1,21 @@
 import React, { useCallback } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { FiHome } from 'react-icons/fi'
+import { FaPhotoVideo } from 'react-icons/fa'
+import { MdPhotoCamera } from 'react-icons/md'
+import { ImUsers } from 'react-icons/im'
+import { VscAccount } from 'react-icons/vsc'
 import { toast } from 'react-toastify'
 
 import { logout } from '../../store/actions'
-import { checkIsAuth } from '../../store/selectors'
+import { checkIsAuth, getUsername } from '../../store/selectors'
 import './Navbar.css'
 import { Link } from '../../enums'
 
 export const Navbar = () => {
   const isAuth = useSelector(checkIsAuth)
+  const username = useSelector(getUsername)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const activeStyles = {
@@ -35,35 +41,39 @@ export const Navbar = () => {
           <li className="navbar-list">
             <NavLink to={Link.home} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
               <span className="navbar-icon">
-                <span className="material-symbols-outlined">home</span>
+                <FiHome />
               </span>
             </NavLink>
           </li>
           <li className="navbar-list">
             <NavLink to={Link.posts} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
               <span className="navbar-icon">
-                <span className="material-symbols-outlined">image</span>
+                <FaPhotoVideo />
               </span>
             </NavLink>
           </li>
           <li className="navbar-list">
             <NavLink to={Link.new} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
               <span className="navbar-icon">
-                <span className="material-symbols-outlined">add_a_photo</span>
+                <MdPhotoCamera />
               </span>
             </NavLink>
           </li>
           <li className="navbar-list">
             <NavLink to={Link.users} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
               <span className="navbar-icon">
-                <span className="material-symbols-outlined">group</span>
+                <ImUsers />
               </span>
             </NavLink>
           </li>
           <li className="navbar-list">
-            <NavLink to={Link.profile} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
+            <NavLink
+              to={`${Link.profile}/${username}`}
+              className="nav-link"
+              style={({ isActive }) => (isActive ? activeStyles : {})}
+            >
               <span className="navbar-icon">
-                <span className="material-symbols-outlined">account_circle</span>
+                <VscAccount />
               </span>
             </NavLink>
           </li>

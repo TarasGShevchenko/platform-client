@@ -1,158 +1,178 @@
 .post-loading {
-    font-size: 50px;
-    color: white;
-    text-align: center;
-    padding: 40px 0;
+  font-size: 50px;
+  color: white;
+  text-align: center;
+  padding: 40px 0;
 }
 .post-button-back {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgb(75 85 99);
-    color: white;
-    border: none;
-    border-radius: 2px;
-    padding: 8px 16px;
-    cursor: pointer;
-    margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(75 85 99);
+  color: white;
+  border: none;
+  border-radius: 2px;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin: 10px;
 }
 .post-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto;
-    padding: 20px;
-    min-width: 350px;
-    min-height: 400px;
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    z-index: 10;
-    backdrop-filter: blur(25px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 20px;
+  min-width: 350px;
+  min-height: 400px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  z-index: 10;
+  backdrop-filter: blur(25px);
 }
 .post-wrapper {
-    width: 100%;
+  width: 100%;
 }
 .post-wrapper-photo-container {
-    display: flex;
-    flex-direction: column;
-    flex-basis: 25%;
-    flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 25%;
+  flex-grow: 1;
 }
 .post-wrapper-photo {
-    border-radius: 2px;
-    display: flex;
-    height: 320px;
+  border-radius: 2px;
+  display: flex;
+  height: 320px;
 }
 .post-wrapper-photo.empty {
-    border-radius: 2px;
-    display: flex;
-    height: 0;
+  border-radius: 2px;
+  display: flex;
+  height: 0;
 }
 .post-wrapper-img {
-    object-fit: cover;
-    width: 100%;
+  object-fit: cover;
+  width: 100%;
 }
 .post-wrapper-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+}
+.post-wrapper-content {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  padding-top: 8px;
+}
+.post-wrapper-inner {
 }
 .post-wrapper-username {
-    color: white;
-    opacity: 50;
+  color: white;
+  opacity: 50;
+  font-size: 26px;
+  font-weight: 700;
 }
 .post-wrapper-date {
-    color: white;
-    opacity: 50;
+  color: white;
+  opacity: 50;
 }
 .post-wrapper-title {
-    color: white;
+  color: white;
 }
 .post-wrapper-text {
-    color: white;
-    opacity: 60;
-     padding-top: 16px;
- }
+  color: white;
+  opacity: 60;
+  padding-top: 16px;
+}
 .post-wrapper-icons-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
 }
 .post-wrapper-icons {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
 }
 .post-wrapper-icons-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    border: none;
-    gap: 8px;
-    color: white;
-    opacity: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: none;
+  gap: 8px;
+  color: white;
+  opacity: 50;
 }
 .post-wrapper-user-icons {
-    display: flex;
-    gap: 12px;
-    margin-top: 16px;
+  display: flex;
+  justify-content: right;
+  align-items: flex-end;
+  padding: 5px 20px;
 }
 .post-wrapper-user-icons-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    border: none;
-    gap: 8px;
-    color: white;
-    opacity: 50;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: none;
+  gap: 8px;
+  color: white;
+    transition: 0.5s;
+  opacity: 50;
+  cursor: pointer;
 }
-
+.post-wrapper-user-icons-button:hover {
+    color: #e91e63;
+    box-shadow: 0 0 60px #e91e63;
+}
 .post-comment-container {
-    width: 100%;
-    padding: 20px;
-    background: transparent;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  max-height: 400px;
+  padding: 10px 20px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
 }
 .post-comment-form {
-    display: flex;
-    gap: 8px;
-    margin: 10px;
-    padding: 10px 20px;
+  display: flex;
+  gap: 8px;
+  margin: 10px;
+  /*padding: 10px 20px;*/
 }
 
 .post-comment-input {
-    color: black;
-    width: 100%;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.5);
-    border-width: 1px;
-    padding: 8px;
-    outline: none;
+  color: black;
+  width: 100%;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  border-width: 1px;
+  padding: 8px;
+  outline: none;
 }
 .post-comment-input::placeholder {
-    color: rgb(55 65 81);
+  color: rgb(55 65 81);
 }
 .post-comment-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgb(75 85 99);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 16px;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(75 85 99);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+.post-comment-wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
 }

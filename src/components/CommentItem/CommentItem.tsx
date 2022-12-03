@@ -12,14 +12,14 @@ interface IProps {
   comment: Partial<IComment>
   func: () => void
 }
-export const CommentItem: FC<IProps> = ({ comment: { id, content, userId, postId, createdAt }, func }) => {
+export const CommentItem: FC<IProps> = ({ comment: { id, content, userId, createdAt }, func }) => {
   const user = useSelector(getUser)
   const users = useSelector(getUsersSelector)
   const token = useSelector(tokenSelector)
   const currentUser = users.find((us) => us.id === userId)
   const deleteComment = useCallback(async () => {
     id && (await CommentsApi.deleteComment(id.toString(), token))
-    func()
+    await func()
   }, [func, id, token])
 
   return (

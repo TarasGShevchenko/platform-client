@@ -1,14 +1,13 @@
-import React, { ChangeEvent, useCallback, useState, useEffect, FormEventHandler } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { AiTwotoneEdit, AiFillDelete } from 'react-icons/ai'
+import React, { ChangeEvent, useCallback, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { FaTrash } from 'react-icons/fa'
 import Moment from 'react-moment'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useQuery } from 'react-query'
 
 import { CommentItem } from '../../components/CommentItem'
-import { getCurrentPostRequest } from '../../store/actions'
-import { getCurrentPost, getUser, tokenSelector } from '../../store/selectors'
+import { getUser, tokenSelector } from '../../store/selectors'
 import './PostPage.css'
 import { CommentsApi, PostApi } from '../../api'
 import { Loader } from '../../components/Loader'
@@ -16,16 +15,15 @@ import { Loader } from '../../components/Loader'
 export const PostPage = () => {
   const [comment, setComment] = useState('')
   const token = useSelector(tokenSelector)
-  const post = useSelector(getCurrentPost)
   const user = useSelector(getUser)
   const navigate = useNavigate()
   const { id } = useParams()
-  const dispatch = useDispatch()
+  const { data: post } = useQuery('post', () => (id ? PostApi.getPostById(id, token).then((res) => res) : null))
   const {
     data: comments,
     isLoading,
     refetch,
-  } = useQuery('comments', () => post && CommentsApi.getPostComments(post.id.toString(), token).then((res) => res))
+  } = useQuery('comments', () => (id ? CommentsApi.getPostComments(id, token).then((res) => res) : null))
 
   const removePostHandler = useCallback(async () => {
     id && (await PostApi.deletePost(id, token))
@@ -33,28 +31,27 @@ export const PostPage = () => {
     navigate('/posts')
   }, [id, navigate, token])
 
-  const addCommentHandler = useCallback(async () => {
-    if (id && post && user) {
-      try {
-        const data = new FormData()
-        data.append('content', comment)
-        data.append('userId', user.id.toString())
-        data.append('postId', id)
-
-        await CommentsApi.createComment(data, token)
-        refetch()
-      } catch (error) {
-        console.log(error)
+  const addCommentHandler = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
+      if (id && post && user) {
+        try {
+          const data = new FormData()
+          data.append('content', comment)
+          data.append('userId', user.id.toString())
+          data.append('postId', id)
+          await CommentsApi.createComment(data, token)
+          await refetch()
+          setComment('')
+        } catch (error) {
+          console.log(error)
+        }
       }
-    }
-  }, [comment, id, post, refetch, token, user])
+    },
+    [comment, id, post, refetch, token, user],
+  )
 
-  const goToEdit = useCallback(() => navigate(`/posts/${id}/edit`), [id, navigate])
   const typingComment = useCallback((e: ChangeEvent<HTMLInputElement>) => setComment(e.target.value), [])
-
-  useEffect(() => {
-    id && dispatch(getCurrentPostRequest({ id }))
-  }, [dispatch, id])
 
   if (!post) return <Loader />
 
@@ -71,25 +68,20 @@ export const PostPage = () => {
         <div className="post-wrapper-info">
           <div className="post-wrapper-username">{post.author.username}</div>
           <div className="post-wrapper-date">
-            <Moment date={post.createdAt} format="D MMM YYYY" />
+            <Moment date={post.updatedAt} format="D MMM YYYY" />
+            <br />
+            <Moment date={post.updatedAt} format="h:mm a " style={{ fontSize: 12 }} />
           </div>
         </div>
-        <div className="post-wrapper-title">{post.title}</div>
-        <p className="post-wrapper-text">{post.content}</p>
-        <div className="flex gap-3 items-center mt-2 justify-between">
-          <div className="post-wrapper-icons">
-            <button className="post-wrapper-icons-button">{/*<AiFillEye /> <span>{post.views}</span>*/}</button>
-            <button className="post-wrapper-icons-button">
-              {/*<AiOutlineMessage /> <span>{post.comments?.length || 0} </span>*/}
-            </button>
+        <div className="post-wrapper-content">
+          <div className="post-wrapper-inner">
+            <div className="post-wrapper-title">{post.title}</div>
+            <p className="post-wrapper-text">{post.content}</p>
           </div>
           {user?.id === post.author.id && (
             <div className="post-wrapper-user-icons">
-              <button className="post-wrapper-user-icons-button" onClick={goToEdit}>
-                <AiTwotoneEdit />
-              </button>
               <button className="post-wrapper-user-icons-button" onClick={removePostHandler}>
-                <AiFillDelete />
+                <FaTrash />
               </button>
             </div>
           )}
@@ -102,6 +94,7 @@ export const PostPage = () => {
             value={comment}
             onChange={typingComment}
             placeholder="Comment"
+            max={120}
             className="post-comment-input"
           />
           <button type="submit" className="post-comment-button">
@@ -109,11 +102,15 @@ export const PostPage = () => {
           </button>
         </form>
 
-        {isLoading || !comments ? (
-          <Loader />
-        ) : (
-          comments.map((cmt) => <CommentItem key={cmt.id} comment={cmt} func={refetch} />)
-        )}
+        <div className="post-comment-wrapper">
+          {isLoading || !comments ? (
+            <Loader />
+          ) : (
+            comments
+              .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+              .map((cmt) => <CommentItem key={cmt.id} comment={cmt} func={refetch} />)
+          )}
+        </div>
       </div>
     </div>
   )

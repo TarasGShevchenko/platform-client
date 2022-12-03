@@ -56,6 +56,7 @@ export const RegisterPage = () => {
           onChange={typingPassword}
           placeholder="Password"
           className="reg-input"
+          autoComplete="on"
         />
       </label>
       <div className="reg-actions">
