@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Moment from 'react-moment'
 
 import { filteredUsers, usersFilterSelector } from '../../store/selectors'
@@ -7,7 +8,6 @@ import { Avatar } from '../../components/Avatar'
 import { setUsersFilter } from '../../store/actions'
 
 import './UsersPage.css'
-import { useNavigate } from 'react-router-dom'
 
 export const UsersPage = () => {
   const users = useSelector(filteredUsers)

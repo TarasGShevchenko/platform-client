@@ -1,14 +1,15 @@
 import React, { FC } from 'react'
 import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import Moment from 'react-moment'
+import { useQuery } from 'react-query'
 
 import { getUser, tokenSelector } from '../../store/selectors'
+import { UserApi } from '../../api'
 import { Avatar } from '../../components/Avatar'
+import { Loader } from '../../components/Loader'
 
 import './ProfilePage.css'
-import { useQuery } from 'react-query'
-import { UserApi } from '../../api'
-import { useParams } from 'react-router-dom'
 
 export const ProfilePage: FC = () => {
   const { username } = useParams()
@@ -17,7 +18,7 @@ export const ProfilePage: FC = () => {
   const token = useSelector(tokenSelector)
   const user = username ? data : currentUser
 
-  if (isLoading || !user) return <div>Loading...</div>
+  if (isLoading || !user) return <Loader />
   return (
     <div className="prof-container">
       <Avatar username={user.username} isProfile={true} />

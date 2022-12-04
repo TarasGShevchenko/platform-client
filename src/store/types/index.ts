@@ -6,7 +6,6 @@ import { UserApi, AuthApi, PostApi } from '../../api'
 import { AppState } from '../redusers/app'
 import { UserState } from '../redusers/users'
 import { AuthState } from '../redusers/auth'
-import { PostsState } from '../redusers/posts'
 
 export type IUser = {
   id: number
@@ -28,6 +27,7 @@ export type IPost = {
   image: string
   author: IUser
   userId: number
+  commentCount: number
   createdAt: string
   updatedAt: string
 }
@@ -67,7 +67,6 @@ export type RootState = {
   app: AppState
   users: UserState
   auth: AuthState
-  posts: PostsState
 }
 export type RootEpic = Epic<RootAction, RootAction, RootState, Services>
 // Same that RootAction

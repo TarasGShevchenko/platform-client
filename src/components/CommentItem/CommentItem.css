@@ -1,51 +1,51 @@
 .comment {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 10px;
-    padding: 5px 20px;
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    backdrop-filter: blur(25px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  padding: 5px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  backdrop-filter: blur(25px);
 }
 .comment-container {
-    display: flex;
-    gap: 12px;
-    align-items: center;
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 .comment-avatar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    background: rgb(147 197 253);
-    border-radius: 9999px;
-    flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: rgb(147 197 253);
+  border-radius: 9999px;
+  flex-shrink: 0;
 }
 .comment-text {
-    display: flex;
-    color: rgb(209 213 219);
-    word-break: break-all;
-    width: 450px;
-    font-size: 14px;
+  display: flex;
+  color: rgb(209 213 219);
+  word-break: break-all;
+  width: 450px;
+  font-size: 14px;
 }
 
 .comment-date {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    font-size: 10px;
-    color: gray;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 10px;
+  color: gray;
 }
 .comment-delete {
-    background: transparent;
-    border: none;
-    font-size: 10px;
-    color: white;
-    cursor: pointer;
+  background: transparent;
+  border: none;
+  font-size: 10px;
+  color: white;
+  cursor: pointer;
 }

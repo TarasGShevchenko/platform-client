@@ -19,7 +19,7 @@ function App() {
     <Layout>
       <Routes>
         <Route path={'/'} element={<MainPage />} />
-        <Route path={'posts'} element={<PostsPage />} />
+        <Route path={'posts/user/:id'} element={<PostsPage />} />
         <Route path={'posts/:id'} element={<PostPage />} />
         <Route path={'new'} element={<AddPostPage />} />
         <Route path={'register'} element={<RegisterPage />} />

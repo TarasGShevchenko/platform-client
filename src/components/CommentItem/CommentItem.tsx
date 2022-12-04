@@ -3,10 +3,11 @@ import Moment from 'react-moment'
 import { useSelector } from 'react-redux'
 
 import { getUser, getUsersSelector, tokenSelector } from '../../store/selectors'
-import './CommentItem.css'
 import { IComment } from '../../store/types'
 import { CommentsApi } from '../../api'
 import { Avatar } from '../Avatar'
+
+import './CommentItem.css'
 
 interface IProps {
   comment: Partial<IComment>

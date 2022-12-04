@@ -1,31 +1,37 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useQuery } from 'react-query'
+import { useParams } from 'react-router-dom'
 
 import { PostItem } from '../../components/PostItem'
-import { getUser, tokenSelector } from '../../store/selectors'
+import { Loader } from '../../components/Loader'
+import { tokenSelector } from '../../store/selectors'
 import { PostApi } from '../../api'
 
 import './PostsPage.css'
 
 export const PostsPage = () => {
-  const user = useSelector(getUser)
   const token = useSelector(tokenSelector)
-  const { data, isLoading } = useQuery(
-    'userPosts',
-    () => user && PostApi.getUserPosts(String(user.id), token).then((res) => res),
+  const { id } = useParams()
+  const {
+    data,
+    isLoading,
+    refetch: reloadPosts,
+  } = useQuery('userPosts', () => (id ? PostApi.getUserPosts(id, token).then((res) => res) : null))
+
+  const posts = useMemo(
+    () => data && data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()),
+    [data],
   )
 
-  if (isLoading) return <div className="post-item-no-posts">Loading...</div>
-  if (!data) return <div className="post-item-no-posts">No posts.</div>
+  if (isLoading) return <Loader />
+  if (!posts) return <div className="post-item-no-posts">No posts.</div>
 
   return (
     <div className="posts-container">
-      {data
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        .map((post, idx) => (
-          <PostItem post={post} key={idx} username={user?.username || 'de'} />
-        ))}
+      {posts.map((post, idx) => (
+        <PostItem post={post} reloadPosts={reloadPosts} key={idx} />
+      ))}
     </div>
   )
 }

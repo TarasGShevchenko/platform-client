@@ -1,54 +1,99 @@
-import React, { FC } from 'react'
+import React, { FC, useCallback } from 'react'
+import { useSelector } from 'react-redux'
 import Moment from 'react-moment'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { FaTrash } from 'react-icons/fa'
 
 import { IPost } from '../../store/types'
 import { Avatar } from '../Avatar'
+import { PostApi } from '../../api'
+import { getUser, tokenSelector } from '../../store/selectors'
+import { Link } from '../../enums'
 
 import './PostItem.css'
 
-type PostItemProps = {
+interface IProps {
   post: IPost
-  username: string
+  reloadPosts?: () => void
+  postPage?: boolean
+  main?: boolean
 }
 
-export const PostItem: FC<PostItemProps> = ({ post, username }) => {
-  if (!post) {
-    return <div className="post-item-no-posts">Loading...</div>
-  }
+export const PostItem: FC<IProps> = ({
+  post: { id, userId, content, image, title, author, commentCount, updatedAt },
+  reloadPosts,
+  postPage,
+  main,
+}) => {
+  const navigate = useNavigate()
+  const user = useSelector(getUser)
+  const token = useSelector(tokenSelector)
+
+  const goToUserPosts = useCallback(() => {
+    navigate(!token ? `${Link.login}` : `${Link.posts}/user/${userId}`)
+  }, [navigate, token, userId])
+
+  const goToCurrentPost = useCallback(() => {
+    navigate(!token ? `${Link.login}` : `${Link.posts}/${id}`)
+  }, [id, navigate, token])
+
+  const removePostHandler = useCallback(async () => {
+    await PostApi.deletePost(id.toString(), token)
+    toast('Post was deleted')
+    reloadPosts && reloadPosts()
+  }, [id, token, reloadPosts])
+
   return (
-    <Link to={`/posts/${post.id}`} className="post-item-link">
-      <div className="post-item-container">
-        <div className={post.image ? 'post-item-photo' : 'post-item-photo empty'}>
-          {post.image && (
-            <img src={`${process.env.REACT_APP_API_URL}${post.image}`} alt="img" className="post-item-img" />
+    <div className="post-item-container">
+      <div className="post-item-wrapper">
+        <div className="post-item-wrapper-photo-container">
+          <div className={image ? 'post-item-wrapper-photo' : 'post-item-wrapper-photo empty'}>
+            {image && (
+              <img src={`${process.env.REACT_APP_API_URL}${image}`} alt="img" className="post-item-wrapper-img" />
+            )}
+          </div>
+        </div>
+        <div className="post-item-wrapper-info">
+          <div className="post-item-wrapper-info-user">
+            <Avatar username={author.username} />
+            <div className="post-item-wrapper-username" onClick={goToUserPosts}>
+              {author.username}
+            </div>
+          </div>
+          <div className="post-item-wrapper-date">
+            <Moment date={updatedAt} format="D MMM YYYY" />
+            <br />
+            <Moment date={updatedAt} format="h:mm a " style={{ fontSize: 12 }} />
+          </div>
+        </div>
+        <div className="post-item-wrapper-inner">
+          <div className="post-item-wrapper-title">
+            <span className="post-item-wrapper-span">Title:</span>
+            &nbsp;
+            {title}
+          </div>
+          <p className="post-item-wrapper-text">
+            <span className="post-item-wrapper-span">Content:</span>
+            &nbsp;
+            {content}
+          </p>
+        </div>
+        <div className="post-item-wrapper-content">
+          {!postPage && (
+            <div className="post-item-wrapper-content-view" onClick={goToCurrentPost}>
+              View comments...({commentCount || 0})
+            </div>
+          )}
+          {!main && user?.id === author.id && (
+            <div className="post-item-wrapper-user-icons">
+              <button className="post-item-wrapper-user-icons-button" onClick={removePostHandler}>
+                <FaTrash />
+              </button>
+            </div>
           )}
         </div>
-        <div className="post-item-info">
-          <div className="post-item-info-user">
-            <Avatar username={username} />
-            {username}
-          </div>
-          <div className="post-item-info-like">
-            {/*<div onClick={onLikePost}>{liked ? <FcLike /> : <AiOutlineHeart />}</div>*/}
-            {/*&nbsp;{post.likes > 0 && post.likes}*/}
-          </div>
-          <div className="post-item-info-date">
-            <Moment date={post.updatedAt} format="D MMM YYYY" />
-            <br />
-            <Moment date={post.updatedAt} format="h:mm a " style={{ fontSize: 12 }} />
-          </div>
-        </div>
-        <div className="post-item-title">{post.title}</div>
-        <p className="post-item-text">{post.content}</p>
-
-        <div className="post-item-icons">
-          <button className="post-item-icons-button">{/*<AiFillEye /> <span>{post.views}</span>*/}</button>
-          <button className="post-item-icons-button">
-            {/*<AiOutlineMessage /> <span>{post.comments?.length || 0} </span>*/}
-          </button>
-        </div>
       </div>
-    </Link>
+    </div>
   )
 }

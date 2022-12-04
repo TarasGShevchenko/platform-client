@@ -9,13 +9,14 @@ import { VscAccount } from 'react-icons/vsc'
 import { toast } from 'react-toastify'
 
 import { logout } from '../../store/actions'
-import { checkIsAuth, getUsername } from '../../store/selectors'
-import './Navbar.css'
+import { checkIsAuth, getUser } from '../../store/selectors'
 import { Link } from '../../enums'
+
+import './Navbar.css'
 
 export const Navbar = () => {
   const isAuth = useSelector(checkIsAuth)
-  const username = useSelector(getUsername)
+  const user = useSelector(getUser)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const activeStyles = {
@@ -46,7 +47,11 @@ export const Navbar = () => {
             </NavLink>
           </li>
           <li className="navbar-list">
-            <NavLink to={Link.posts} className="nav-link" style={({ isActive }) => (isActive ? activeStyles : {})}>
+            <NavLink
+              to={`${Link.posts}/user/${user?.id}`}
+              className="nav-link"
+              style={({ isActive }) => (isActive ? activeStyles : {})}
+            >
               <span className="navbar-icon">
                 <FaPhotoVideo />
               </span>
@@ -68,7 +73,7 @@ export const Navbar = () => {
           </li>
           <li className="navbar-list">
             <NavLink
-              to={`${Link.profile}/${username}`}
+              to={`${Link.profile}/${user?.username}`}
               className="nav-link"
               style={({ isActive }) => (isActive ? activeStyles : {})}
             >

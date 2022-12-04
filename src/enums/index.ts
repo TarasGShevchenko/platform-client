@@ -4,4 +4,6 @@ export enum Link {
   new = '/new',
   users = '/users',
   profile = '/profile',
+  login = '/login',
+  register = '/register',
 }

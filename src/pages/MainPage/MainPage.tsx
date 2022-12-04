@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useQuery } from 'react-query'
 
 import { PostItem } from '../../components/PostItem'
@@ -10,13 +10,18 @@ import './mainPage.css'
 export const MainPage = () => {
   const { data, isLoading } = useQuery('posts', () => PostApi.getPosts().then((res) => res))
 
+  const posts = useMemo(
+    () => data && data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()),
+    [data],
+  )
+
   if (isLoading) return <Loader />
-  if (!data) return <div className="no-posts">No posts.</div>
+  if (!posts) return <div className="no-posts">No posts.</div>
 
   return (
     <div className="main-container">
-      {data.map((post, idx) => (
-        <PostItem key={idx} post={post} username={post.author.username} />
+      {posts.map((post, idx) => (
+        <PostItem post={post} main={true} key={idx} />
       ))}
     </div>
   )

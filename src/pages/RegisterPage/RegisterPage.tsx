@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { registerUserRequest } from '../../store/actions'
 import { checkIsAuth } from '../../store/selectors'
+
 import './RegisterPage.css'
 
 export const RegisterPage = () => {
