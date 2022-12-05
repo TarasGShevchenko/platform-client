@@ -44,7 +44,12 @@ export const UsersPage = () => {
       <div className="user-list">
         {users.map((user) => (
           <div key={user.id} className="user-item" onClick={() => goToThisUser(user.username)}>
-            <Avatar username={user.username} />
+            <Avatar
+              id={user.id}
+              avatarLogo={user.avatarLogo}
+              avatarBackground={user.avatarBackground}
+              username={user.username}
+            />
             <div className="user-content">
               <div className="user-username">{user.username}</div>
               <Moment className="user-created" date={user.createdAt} format={'MMM Do YY'} />

@@ -7,3 +7,14 @@ export enum Link {
   login = '/login',
   register = '/register',
 }
+
+export enum AvatarLogo {
+  hackers = 'hackers',
+  hackerm = 'hackerm',
+  hackerj = 'hackerj',
+  avatar = 'avatar',
+  kitty = 'kitty',
+  zombie = 'zombie',
+  superhero = 'superhero',
+  user = 'user',
+}

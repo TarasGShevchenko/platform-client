@@ -26,7 +26,14 @@ export const CommentItem: FC<IProps> = ({ comment: { id, content, userId, create
   return (
     <div className="comment">
       <div className="comment-container">
-        {currentUser && <Avatar username={currentUser?.username} />}
+        {currentUser && (
+          <Avatar
+            id={currentUser.id}
+            avatarLogo={currentUser.avatarLogo}
+            avatarBackground={currentUser.avatarBackground}
+            username={currentUser?.username}
+          />
+        )}
         <div className="comment-text">{content}</div>
       </div>
       <div className="comment-date">

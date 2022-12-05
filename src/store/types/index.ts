@@ -12,6 +12,8 @@ export type IUser = {
   username: string
   email: string
   password: string
+  avatarLogo: string
+  avatarBackground: string
   banned: boolean
   banReason: string | null
   createdAt: string

@@ -56,7 +56,12 @@ export const PostItem: FC<IProps> = ({
         </div>
         <div className="post-item-wrapper-info">
           <div className="post-item-wrapper-info-user">
-            <Avatar username={author.username} />
+            <Avatar
+              id={userId}
+              avatarLogo={author.avatarLogo}
+              avatarBackground={author.avatarBackground}
+              username={author.username}
+            />
             <div className="post-item-wrapper-username" onClick={goToUserPosts}>
               {author.username}
             </div>
