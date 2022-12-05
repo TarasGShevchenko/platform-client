@@ -37,17 +37,16 @@ export const ProfilePage: FC = () => {
     setOpenForm(!openForm)
     closeSettingAvatar()
   }, [closeSettingAvatar, openForm])
+  const closeChangeAvatarModal = useCallback(() => {
+    setOpenForm(!openForm)
+  }, [openForm])
 
-  const updateAvatar = useCallback(
-    (event: any) => {
-      event.preventDefault()
-      currentUser && UserApi.updateUser(currentUser.id.toString(), token, logo, background)
-      setOpenForm(false)
-      refetch()
-    },
-    [background, currentUser, logo, refetch, token],
-  )
-
+  const updateAvatar = useCallback(() => {
+    currentUser && UserApi.updateUser(currentUser.id.toString(), token, logo, background)
+    closeChangeAvatarModal()
+    refetch().then()
+  }, [background, closeChangeAvatarModal, currentUser, logo, refetch, token])
+  console.log(user?.avatarLogo)
   if (isLoading || !user) return <Loader />
   return (
     <div className="prof-container">
@@ -56,9 +55,14 @@ export const ProfilePage: FC = () => {
         <LogoPicker />
         <div className="prof-setting-title">Choose background</div>
         <BackgroundPicker />
-        <button className="prof-setting-btn" onClick={updateAvatar}>
-          Update avatar
-        </button>
+        <div className="prof-setting-actions">
+          <div className="prof-setting-btn" onClick={updateAvatar}>
+            Update avatar
+          </div>
+          <div className="prof-setting-btn" onClick={closeChangeAvatarModal}>
+            Close
+          </div>
+        </div>
       </form>
       <div className="prof-menu" onClick={openSettingAvatar}>
         <AiOutlineMore size={'2em'} />

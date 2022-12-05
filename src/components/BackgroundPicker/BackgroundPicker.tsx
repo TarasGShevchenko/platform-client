@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { ChangeEvent, useCallback } from 'react'
 
 import './BackgroundPicker.css'
 import { useDispatch } from 'react-redux'
@@ -9,7 +9,7 @@ export const BackgroundPicker = () => {
   const dispatch = useDispatch()
 
   const selectColor = useCallback(
-    (event: any) => {
+    (event: ChangeEvent) => {
       dispatch(selectBackgroundAction(event.target.id))
     },
     [dispatch],
@@ -18,7 +18,7 @@ export const BackgroundPicker = () => {
   return (
     <div className="background-picker-container">
       {DEFAULT_COLORS.map((color, i) => (
-        <>
+        <React.Fragment key={i}>
           <input
             className="background-picker-input"
             type="radio"
@@ -27,8 +27,8 @@ export const BackgroundPicker = () => {
             value={color}
             onChange={selectColor}
           />
-          <label key={i} className="background-picker-label" htmlFor={color} style={{ backgroundColor: color }} />
-        </>
+          <label className="background-picker-label" htmlFor={color} style={{ backgroundColor: color }} />
+        </React.Fragment>
       ))}
     </div>
   )
