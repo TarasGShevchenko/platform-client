@@ -9,10 +9,10 @@ import { getUser, selectedBackgroundSelector, selectedLogoSelector, tokenSelecto
 import { UserApi } from '../../api'
 import { Avatar } from '../../components/Avatar'
 import { Loader } from '../../components/Loader'
-
-import './ProfilePage.css'
 import { LogoPicker } from '../../components/LogoPicker'
 import { BackgroundPicker } from '../../components/BackgroundPicker'
+
+import './ProfilePage.css'
 
 export const ProfilePage: FC = () => {
   const [open, setOpen] = useState(false)
@@ -46,7 +46,7 @@ export const ProfilePage: FC = () => {
     closeChangeAvatarModal()
     refetch().then()
   }, [background, closeChangeAvatarModal, currentUser, logo, refetch, token])
-  console.log(user?.avatarLogo)
+
   if (isLoading || !user) return <Loader />
   return (
     <div className="prof-container">
@@ -64,9 +64,11 @@ export const ProfilePage: FC = () => {
           </div>
         </div>
       </form>
-      <div className="prof-menu" onClick={openSettingAvatar}>
-        <AiOutlineMore size={'2em'} />
-      </div>
+      {token && (
+        <div className="prof-menu" onClick={openSettingAvatar}>
+          <AiOutlineMore size={'2em'} />
+        </div>
+      )}
       <div className={`prof-menu-option${open ? ' open' : ''}`}>
         <button className="prof-menu-select" onClick={openChangeAvatarModal}>
           Change avatar

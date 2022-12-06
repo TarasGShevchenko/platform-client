@@ -74,17 +74,17 @@ export const PostItem: FC<IProps> = ({
         </div>
         <div className="post-item-wrapper-inner">
           <div className="post-item-wrapper-title">
-            <span className="post-item-wrapper-span">Title:</span>
+            <div className="post-item-wrapper-span">Title:</div>
             &nbsp;
             {title}
           </div>
-          <p className="post-item-wrapper-text">
-            <span className="post-item-wrapper-span">Content:</span>
+          <div className="post-item-wrapper-text">
+            <div className="post-item-wrapper-span">Content:</div>
             &nbsp;
             {content}
-          </p>
+          </div>
         </div>
-        <div className="post-item-wrapper-content">
+        <div className="post-item-wrapper-actions">
           {!postPage && (
             <div className="post-item-wrapper-content-view" onClick={goToCurrentPost}>
               View comments...({commentCount || 0})

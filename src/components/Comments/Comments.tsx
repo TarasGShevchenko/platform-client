@@ -55,7 +55,7 @@ export const Comments: FC<IProps> = ({ post }) => {
           value={comment}
           onChange={typingComment}
           placeholder="Comment"
-          max={120}
+          maxLength={120}
           className="comments-input"
         />
         <button type="submit" className="comments-button">

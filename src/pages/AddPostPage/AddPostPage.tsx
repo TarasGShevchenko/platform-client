@@ -55,6 +55,7 @@ export const AddPostPage = () => {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"
           className="add-post-input"
+          maxLength={50}
         />
       </label>
 
@@ -65,6 +66,7 @@ export const AddPostPage = () => {
           value={content}
           placeholder="Text"
           className="add-post-textarea"
+          maxLength={255}
         />
       </label>
 
