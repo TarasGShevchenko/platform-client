@@ -1,33 +1,9 @@
-.post-item-item-no-posts {
-  color: white;
-  text-align: center;
-  padding: 10px;
-}
-.post-item-loading {
-  font-size: 50px;
-  color: white;
-  text-align: center;
-  padding: 40px 0;
-}
-.post-item-button-back {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgb(75 85 99);
-  color: white;
-  border: none;
-  border-radius: 2px;
-  padding: 8px 16px;
-  cursor: pointer;
-  margin: 10px;
-}
 .post-item-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: auto;
-  margin-bottom: 20px;
+  margin: 10px auto;
   padding: 20px;
   width: 100%;
   min-width: 350px;

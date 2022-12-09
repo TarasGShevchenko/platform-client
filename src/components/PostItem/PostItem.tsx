@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Moment from 'react-moment'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -8,7 +8,8 @@ import { FaTrash } from 'react-icons/fa'
 import { IPost } from '../../store/types'
 import { Avatar } from '../Avatar'
 import { PostApi } from '../../api'
-import { getUser, tokenSelector } from '../../store/selectors'
+import { getMeSelector, tokenSelector } from '../../store/selectors'
+import { selectUserAction } from '../../store/actions'
 import { Link } from '../../enums'
 
 import './PostItem.css'
@@ -27,12 +28,14 @@ export const PostItem: FC<IProps> = ({
   main,
 }) => {
   const navigate = useNavigate()
-  const user = useSelector(getUser)
+  const dispatch = useDispatch()
+  const me = useSelector(getMeSelector)
   const token = useSelector(tokenSelector)
 
   const goToUserPosts = useCallback(() => {
-    navigate(!token ? `${Link.login}` : `${Link.posts}/user/${userId}`)
-  }, [navigate, token, userId])
+    navigate(!token ? `${Link.login}` : `${Link.profile}/${author.username}`)
+    dispatch(selectUserAction({ id: author.id, username: author.username }))
+  }, [author.id, author.username, dispatch, navigate, token])
 
   const goToCurrentPost = useCallback(() => {
     navigate(!token ? `${Link.login}` : `${Link.posts}/${id}`)
@@ -55,16 +58,14 @@ export const PostItem: FC<IProps> = ({
           </div>
         </div>
         <div className="post-item-wrapper-info">
-          <div className="post-item-wrapper-info-user">
+          <div className="post-item-wrapper-info-user" onClick={goToUserPosts}>
             <Avatar
               id={userId}
               avatarLogo={author.avatarLogo}
               avatarBackground={author.avatarBackground}
               username={author.username}
             />
-            <div className="post-item-wrapper-username" onClick={goToUserPosts}>
-              {author.username}
-            </div>
+            <div className="post-item-wrapper-username">{author.username}</div>
           </div>
           <div className="post-item-wrapper-date">
             <Moment date={updatedAt} format="D MMM YYYY" />
@@ -90,7 +91,7 @@ export const PostItem: FC<IProps> = ({
               View comments...({commentCount || 0})
             </div>
           )}
-          {!main && user?.id === author.id && (
+          {!main && me?.id === author.id && (
             <div className="post-item-wrapper-user-icons">
               <button className="post-item-wrapper-user-icons-button" onClick={removePostHandler}>
                 <FaTrash />

@@ -1,5 +1,5 @@
 export enum Link {
-  home = '/',
+  home = '/home',
   posts = '/posts',
   new = '/new',
   users = '/users',

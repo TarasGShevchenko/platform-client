@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { getUser } from '../../store/selectors'
+import { getMeSelector } from '../../store/selectors'
 import { createPostRequest } from '../../store/actions'
 
 import './AddPost.css'
@@ -14,15 +14,15 @@ export const AddPostPage = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const user = useSelector(getUser)
+  const me = useSelector(getMeSelector)
 
   const submitHandler = () => {
-    if (user && !!image) {
+    if (me && !!image) {
       try {
         const data = new FormData()
         data.append('title', title)
         data.append('content', content)
-        data.append('userId', user.id.toString())
+        data.append('userId', me.id.toString())
         data.append('image', image)
         dispatch(createPostRequest(data))
         navigate('/')

@@ -1,7 +1,13 @@
 import { RootEpic } from '../types'
 import { filter, switchMap, map } from 'rxjs/operators'
 import { isActionOf } from 'typesafe-actions'
-import { loginUserRequest, loginUserSuccess, getUsers, registerUserRequest, registerUserSuccess } from '../actions'
+import {
+  loginUserRequest,
+  loginUserSuccess,
+  registerUserRequest,
+  registerUserSuccess,
+  selectUserAction,
+} from '../actions'
 import { from } from 'rxjs'
 
 export const LoginEpic: RootEpic = (action$, state$, { AuthApi }) => {
@@ -26,7 +32,6 @@ export const RegisterEpic: RootEpic = (action$, state$, { AuthApi }) => {
           if (res.token) {
             window.localStorage.setItem('token', res.token)
           }
-          getUsers()
           return registerUserSuccess(res)
         }),
       )
@@ -34,4 +39,28 @@ export const RegisterEpic: RootEpic = (action$, state$, { AuthApi }) => {
   )
 }
 
-export default [LoginEpic, RegisterEpic]
+export const SelectUserAfterLoginEpic: RootEpic = (action$) => {
+  return action$.pipe(filter(isActionOf(loginUserSuccess))).pipe(
+    map(
+      ({
+        payload: {
+          user: { id, username },
+        },
+      }) => selectUserAction({ id, username }),
+    ),
+  )
+}
+
+export const SelectUserAfterRegEpic: RootEpic = (action$) => {
+  return action$.pipe(filter(isActionOf(registerUserSuccess))).pipe(
+    map(
+      ({
+        payload: {
+          user: { id, username },
+        },
+      }) => selectUserAction({ id, username }),
+    ),
+  )
+}
+
+export default [LoginEpic, RegisterEpic, SelectUserAfterLoginEpic, SelectUserAfterRegEpic]

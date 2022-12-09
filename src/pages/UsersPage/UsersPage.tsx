@@ -5,7 +5,7 @@ import Moment from 'react-moment'
 
 import { filteredUsers, usersFilterSelector } from '../../store/selectors'
 import { Avatar } from '../../components/Avatar'
-import { setUsersFilter } from '../../store/actions'
+import { selectUserAction, setUsersFilter } from '../../store/actions'
 
 import './UsersPage.css'
 
@@ -25,10 +25,13 @@ export const UsersPage = () => {
   )
 
   const goToThisUser = useCallback(
-    (username: string) => {
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      const id = event.currentTarget.dataset.id
+      const username = event.currentTarget.dataset.username
+      id && username && dispatch(selectUserAction({ id: +id, username }))
       navigate(`/profile/${username}`)
     },
-    [navigate],
+    [dispatch, navigate],
   )
 
   if (!users) return <div>Loading...</div>
@@ -43,7 +46,13 @@ export const UsersPage = () => {
       />
       <div className="user-list">
         {users.map((user) => (
-          <div key={user.id} className="user-item" onClick={() => goToThisUser(user.username)}>
+          <div
+            key={user.id}
+            className="user-item"
+            onClick={goToThisUser}
+            data-id={user.id}
+            data-username={user.username}
+          >
             <Avatar
               id={user.id}
               avatarLogo={user.avatarLogo}

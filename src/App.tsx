@@ -4,7 +4,6 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { MainPage } from './pages/MainPage'
-import { PostsPage } from './pages/PostsPage'
 import { PostPage } from './pages/PostPage'
 import { AddPostPage } from './pages/AddPostPage'
 import { RegisterPage } from './pages/RegisterPage'
@@ -13,21 +12,20 @@ import { ProfilePage } from './pages/ProfilePage'
 import { UsersPage } from './pages/UsersPage'
 import { Layout } from './components/Layout'
 import { BackgroundAnimation } from './components/BackgroundAnimation'
+import { Link } from './enums'
 
 function App() {
   return (
     <Layout>
       <Routes>
-        <Route path={'/'} element={<MainPage />} />
-        <Route path={'posts/user/:id'} element={<PostsPage />} />
-        <Route path={'posts/:id'} element={<PostPage />} />
-        <Route path={'new'} element={<AddPostPage />} />
-        <Route path={'register'} element={<RegisterPage />} />
-        <Route path={'login'} element={<LoginPage />} />
-        <Route path={'profile/:username'} element={<ProfilePage />} />
-        <Route path={'users'} element={<UsersPage />} />
+        <Route path={Link.home} element={<MainPage />} />
+        <Route path={`${Link.posts}/:id`} element={<PostPage />} />
+        <Route path={Link.new} element={<AddPostPage />} />
+        <Route path={Link.register} element={<RegisterPage />} />
+        <Route path={Link.login} element={<LoginPage />} />
+        <Route path={`${Link.profile}/:username`} element={<ProfilePage />} />
+        <Route path={Link.users} element={<UsersPage />} />
       </Routes>
-
       <BackgroundAnimation />
       <ToastContainer />
     </Layout>

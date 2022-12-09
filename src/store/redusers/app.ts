@@ -1,11 +1,12 @@
 import { createReducer } from 'typesafe-actions'
 
 import { ActionTypes } from '../types'
-import { initialize, selectBackgroundAction, selectLogoAction, setUsersFilter } from '../actions'
+import { initialize, selectBackgroundAction, selectLogoAction, selectUserAction, setUsersFilter } from '../actions'
 
 export type AppState = {
   loading: boolean
   usersFilter: string
+  selectedUser: { id: number; username: string }
   selectedLogo: string
   selectedBackground: string
 }
@@ -13,6 +14,7 @@ export type AppState = {
 const initialState = {
   loading: false,
   usersFilter: '',
+  selectedUser: { id: 0, username: '' },
   selectedLogo: '',
   selectedBackground: '',
 }
@@ -32,4 +34,8 @@ export const appReducer = createReducer<AppState, ActionTypes>(initialState)
   .handleAction(selectBackgroundAction, (state, { payload }) => ({
     ...state,
     selectedBackground: payload,
+  }))
+  .handleAction(selectUserAction, (state, { payload }) => ({
+    ...state,
+    selectedUser: payload,
   }))

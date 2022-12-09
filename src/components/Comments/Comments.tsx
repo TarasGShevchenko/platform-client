@@ -1,9 +1,8 @@
-import React, { ChangeEvent, FC, useCallback, useState } from 'react'
+import React, { ChangeEvent, FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
 
-import { getUser, tokenSelector } from '../../store/selectors'
+import { getMeSelector, tokenSelector } from '../../store/selectors'
 import { IPost } from '../../store/types'
 import { CommentsApi } from '../../api'
 import { Loader } from '../Loader'
@@ -17,23 +16,20 @@ interface IProps {
 export const Comments: FC<IProps> = ({ post }) => {
   const [comment, setComment] = useState('')
   const token = useSelector(tokenSelector)
-  const user = useSelector(getUser)
-  const { id } = useParams()
-  const {
-    data: comments,
-    isLoading,
-    refetch,
-  } = useQuery('comments', () => (id ? CommentsApi.getPostComments(id, token).then((res) => res) : null))
+  const me = useSelector(getMeSelector)
+  const { data, isLoading, refetch } = useQuery('comments', () =>
+    CommentsApi.getPostComments(post.id.toString(), token).then((res) => res),
+  )
 
   const addCommentHandler = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault()
-      if (id && post && user) {
+      if (post && me) {
         try {
           const data = new FormData()
           data.append('content', comment)
-          data.append('userId', user.id.toString())
-          data.append('postId', id)
+          data.append('userId', me.id.toString())
+          data.append('postId', post.id.toString())
           await CommentsApi.createComment(data, token)
           await refetch()
           setComment('')
@@ -42,10 +38,19 @@ export const Comments: FC<IProps> = ({ post }) => {
         }
       }
     },
-    [comment, id, post, refetch, token, user],
+    [comment, post, refetch, token, me],
   )
 
   const typingComment = useCallback((e: ChangeEvent<HTMLInputElement>) => setComment(e.target.value), [])
+
+  const comments = useMemo(
+    () => data && data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()),
+    [data],
+  )
+
+  useEffect(() => {
+    refetch()
+  }, [refetch, post])
 
   return (
     <div className="comments-container">
@@ -67,9 +72,7 @@ export const Comments: FC<IProps> = ({ post }) => {
         {isLoading || !comments ? (
           <Loader />
         ) : (
-          comments
-            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-            .map((cmt) => <CommentItem key={cmt.id} comment={cmt} func={refetch} />)
+          comments.map((cmt) => <CommentItem key={cmt.id} comment={cmt} func={refetch} />)
         )}
       </div>
     </div>

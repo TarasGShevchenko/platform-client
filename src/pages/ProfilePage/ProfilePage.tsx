@@ -1,113 +1,48 @@
-import React, { FC, useCallback, useState } from 'react'
+import React, { FC, useEffect, useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import Moment from 'react-moment'
 import { useQuery } from 'react-query'
-import { AiOutlineMore } from 'react-icons/ai'
 
-import { getUser, selectedBackgroundSelector, selectedLogoSelector, tokenSelector } from '../../store/selectors'
-import { UserApi } from '../../api'
-import { Avatar } from '../../components/Avatar'
+import { selectedUserSelector, tokenSelector } from '../../store/selectors'
+import { PostApi, UserApi } from '../../api'
 import { Loader } from '../../components/Loader'
-import { LogoPicker } from '../../components/LogoPicker'
-import { BackgroundPicker } from '../../components/BackgroundPicker'
+import { PostItem } from '../../components/PostItem'
+import { Profile } from '../../components/Profile'
 
 import './ProfilePage.css'
 
 export const ProfilePage: FC = () => {
-  const [open, setOpen] = useState(false)
-  const [openForm, setOpenForm] = useState(false)
-  const { username } = useParams()
-  const { data, isLoading, refetch } = useQuery('user', () =>
-    username ? UserApi.getUserByUsername(username, token) : null,
-  )
-  const currentUser = useSelector(getUser)
-  const logo = useSelector(selectedLogoSelector)
-  const background = useSelector(selectedBackgroundSelector)
   const token = useSelector(tokenSelector)
-  const user = username ? data : currentUser
+  const selectedUser = useSelector(selectedUserSelector)
 
-  const openSettingAvatar = useCallback(() => {
-    setOpen(!open)
-  }, [open])
-  const closeSettingAvatar = useCallback(() => {
-    setOpen(!open)
-  }, [open])
-  const openChangeAvatarModal = useCallback(() => {
-    setOpenForm(!openForm)
-    closeSettingAvatar()
-  }, [closeSettingAvatar, openForm])
-  const closeChangeAvatarModal = useCallback(() => {
-    setOpenForm(!openForm)
-  }, [openForm])
+  const {
+    data: user,
+    isLoading: isLoadingUser,
+    refetch: reloadUser,
+  } = useQuery('user', () => UserApi.getUserByUsername(selectedUser.username, token).then((res) => res))
 
-  const updateAvatar = useCallback(() => {
-    currentUser && UserApi.updateUser(currentUser.id.toString(), token, logo, background)
-    closeChangeAvatarModal()
-    refetch().then()
-  }, [background, closeChangeAvatarModal, currentUser, logo, refetch, token])
+  const {
+    data: userPosts,
+    isLoading: isLoadingPosts,
+    refetch: reloadPosts,
+  } = useQuery('userPosts', () => PostApi.getUserPosts(selectedUser.id.toString(), token).then((res) => res))
 
-  if (isLoading || !user) return <Loader />
+  useEffect(() => {
+    reloadUser()
+    reloadPosts()
+  }, [reloadPosts, reloadUser, selectedUser])
+
+  const posts = useMemo(
+    () => userPosts && userPosts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()),
+    [userPosts],
+  )
   return (
-    <div className="prof-container">
-      <form className={`prof-setting-form${openForm ? ' open-form' : ''}`}>
-        <div className="prof-setting-title">Choose avatar</div>
-        <LogoPicker />
-        <div className="prof-setting-title">Choose background</div>
-        <BackgroundPicker />
-        <div className="prof-setting-actions">
-          <div className="prof-setting-btn" onClick={updateAvatar}>
-            Update avatar
-          </div>
-          <div className="prof-setting-btn" onClick={closeChangeAvatarModal}>
-            Close
-          </div>
-        </div>
-      </form>
-      {token && (
-        <div className="prof-menu" onClick={openSettingAvatar}>
-          <AiOutlineMore size={'2em'} />
-        </div>
+    <>
+      {isLoadingUser || !user ? <Loader /> : <Profile user={user} reloadUser={reloadUser} reloadPosts={reloadPosts} />}
+      {isLoadingPosts || !posts ? (
+        <Loader />
+      ) : (
+        posts.map((post, idx) => <PostItem post={post} reloadPosts={reloadPosts} key={idx} />)
       )}
-      <div className={`prof-menu-option${open ? ' open' : ''}`}>
-        <button className="prof-menu-select" onClick={openChangeAvatarModal}>
-          Change avatar
-        </button>
-        <hr />
-        <button className="prof-menu-select" onClick={closeSettingAvatar}>
-          Cancel
-        </button>
-      </div>
-      <Avatar
-        id={user.id}
-        avatarLogo={user.avatarLogo}
-        avatarBackground={user.avatarBackground}
-        username={user.username}
-        isProfile={true}
-      />
-      <h1 className="prof-title">{user.username}</h1>
-      <div className="prof-content">
-        <div className="prof-row">
-          <div>Email: </div>
-          <div>{user.email}</div>
-        </div>
-        <div className="prof-row">
-          <div>Role: </div>
-          <div>
-            {user.roles.map((role) => (
-              <div key={role.id}>{role.value}</div>
-            ))}
-          </div>
-        </div>
-        <div className="prof-row">
-          <div>Posts: </div>
-          <div>{user.posts.length}</div>
-        </div>
-        <div className="prof-row">
-          <div>Register date: </div>
-          <Moment date={user.createdAt} format="D MMM YYYY" />
-        </div>
-      </div>
-    </div>
+    </>
   )
 }

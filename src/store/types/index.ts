@@ -7,6 +7,11 @@ import { AppState } from '../redusers/app'
 import { UserState } from '../redusers/users'
 import { AuthState } from '../redusers/auth'
 
+export type UserSuccess = {
+  token: string
+  user: IUser
+}
+
 export type IUser = {
   id: number
   username: string

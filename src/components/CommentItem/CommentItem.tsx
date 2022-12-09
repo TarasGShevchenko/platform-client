@@ -2,7 +2,7 @@ import React, { FC, useCallback } from 'react'
 import Moment from 'react-moment'
 import { useSelector } from 'react-redux'
 
-import { getUser, getUsersSelector, tokenSelector } from '../../store/selectors'
+import { getMeSelector, getUsersSelector, tokenSelector } from '../../store/selectors'
 import { IComment } from '../../store/types'
 import { CommentsApi } from '../../api'
 import { Avatar } from '../Avatar'
@@ -14,7 +14,7 @@ interface IProps {
   func: () => void
 }
 export const CommentItem: FC<IProps> = ({ comment: { id, content, userId, createdAt }, func }) => {
-  const user = useSelector(getUser)
+  const me = useSelector(getMeSelector)
   const users = useSelector(getUsersSelector)
   const token = useSelector(tokenSelector)
   const currentUser = users.find((us) => us.id === userId)
@@ -38,7 +38,7 @@ export const CommentItem: FC<IProps> = ({ comment: { id, content, userId, create
       </div>
       <div className="comment-date">
         <Moment date={createdAt} format="D MMM YYYY" />
-        {user?.id === userId && (
+        {me?.id === userId && (
           <button className="comment-delete" onClick={deleteComment}>
             delete
           </button>
