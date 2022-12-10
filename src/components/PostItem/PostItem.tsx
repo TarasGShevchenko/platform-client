@@ -4,10 +4,11 @@ import Moment from 'react-moment'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { FaTrash } from 'react-icons/fa'
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 
 import { IPost } from '../../store/types'
 import { Avatar } from '../Avatar'
-import { PostApi } from '../../api'
+import { LikesApi, PostApi } from '../../api'
 import { getMeSelector, tokenSelector } from '../../store/selectors'
 import { selectUserAction } from '../../store/actions'
 import { Link } from '../../enums'
@@ -22,7 +23,7 @@ interface IProps {
 }
 
 export const PostItem: FC<IProps> = ({
-  post: { id, userId, content, image, title, author, commentCount, updatedAt },
+  post: { id, userId, content, image, title, author, commentCount, postLikes, updatedAt },
   reloadPosts,
   postPage,
   main,
@@ -31,6 +32,19 @@ export const PostItem: FC<IProps> = ({
   const dispatch = useDispatch()
   const me = useSelector(getMeSelector)
   const token = useSelector(tokenSelector)
+
+  const isLiked = postLikes && postLikes?.some((like) => +like === me?.id)
+
+  const likePost = useCallback(async () => {
+    console.log('!!!!')
+    me && (await LikesApi.like(me.id, id, token))
+    reloadPosts && reloadPosts()
+  }, [id, me, reloadPosts, token])
+
+  const unlikePost = useCallback(async () => {
+    me && (await LikesApi.unlike(id, me.id, token))
+    reloadPosts && reloadPosts()
+  }, [id, me, reloadPosts, token])
 
   const goToUserPosts = useCallback(() => {
     navigate(!token ? `${Link.login}` : `${Link.profile}/${author.username}`)
@@ -66,6 +80,12 @@ export const PostItem: FC<IProps> = ({
               username={author.username}
             />
             <div className="post-item-wrapper-username">{author.username}</div>
+          </div>
+          <div className="post-like-container">
+            <div className="post-like">
+              {isLiked ? <AiFillHeart color="#ff1800" onClick={unlikePost} /> : <AiOutlineHeart onClick={likePost} />}
+            </div>
+            <span className="post-like-count">{postLikes?.length || 0}</span>
           </div>
           <div className="post-item-wrapper-date">
             <Moment date={updatedAt} format="D MMM YYYY" />

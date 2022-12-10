@@ -139,3 +139,18 @@
   color: #e91e63;
   box-shadow: 0 0 60px #e91e63;
 }
+.post-like-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.post-like {
+    padding: 12px;
+    font-size: 1.5em;
+    color: white;
+}
+.post-like-count {
+    padding-bottom: 6px;
+    font-size: 24px;
+    color: white;
+}

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { BiLogIn, BiLogOut } from 'react-icons/bi'
 
 import { logout } from '../../store/actions'
+import { Link } from '../../enums'
 
 import './Sign.css'
 export const Sign = () => {
@@ -20,7 +21,7 @@ export const Sign = () => {
     dispatch(logout())
     window.localStorage.removeItem('token')
     toast('Logout')
-    navigate('/login')
+    navigate(Link.login)
   }, [dispatch, navigate])
   return (
     <div className="sign-button">

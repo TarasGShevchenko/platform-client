@@ -12,12 +12,14 @@ import { PostItem } from '../../components/PostItem'
 export const PostPage = () => {
   const token = useSelector(tokenSelector)
   const { id } = useParams()
-  const { data: post } = useQuery('post', () => (id ? PostApi.getPostById(id, token).then((res) => res) : null))
+  const { data: post, refetch } = useQuery('post', () =>
+    id ? PostApi.getPostById(id, token).then((res) => res) : null,
+  )
   if (!post) return <Loader />
 
   return (
     <>
-      <PostItem post={post} postPage={true} />
+      <PostItem post={post} postPage={true} reloadPosts={refetch} />
       <Comments post={post} />
     </>
   )

@@ -4,7 +4,7 @@ import { createEpicMiddleware } from 'redux-observable'
 
 import { ActionTypes, RootState } from './types'
 import { rootEpics } from './epics'
-import { UserApi, AuthApi, PostApi } from '../api'
+import { UserApi, AuthApi, PostApi, LikesApi } from '../api'
 
 declare global {
   interface Window {
@@ -17,6 +17,7 @@ const epicMiddleware = createEpicMiddleware<ActionTypes, ActionTypes, RootState>
     AuthApi,
     UserApi,
     PostApi,
+    LikesApi,
   },
 })
 

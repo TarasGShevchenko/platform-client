@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { getMeSelector } from '../../store/selectors'
 import { createPostRequest } from '../../store/actions'
+import { Link } from '../../enums'
 
 import './AddPost.css'
 
@@ -25,7 +26,7 @@ export const AddPostPage = () => {
         data.append('userId', me.id.toString())
         data.append('image', image)
         dispatch(createPostRequest(data))
-        navigate('/')
+        navigate(Link.home)
       } catch (error) {
         console.log(error)
       }

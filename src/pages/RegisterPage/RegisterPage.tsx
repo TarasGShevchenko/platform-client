@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback, ChangeEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { registerUserRequest } from '../../store/actions'
 import { checkIsAuth } from '../../store/selectors'
+import { Link } from '../../enums'
 
 import './RegisterPage.css'
 
@@ -33,9 +34,7 @@ export const RegisterPage = () => {
   }, [dispatch, username, password, email])
 
   useEffect(() => {
-    if (isAuth) {
-      navigate('/')
-    }
+    if (isAuth) navigate(Link.home)
   }, [isAuth, navigate])
 
   return (
@@ -64,9 +63,9 @@ export const RegisterPage = () => {
         <button type="submit" onClick={handleSubmit} className="reg-actions-button">
           Submit
         </button>
-        <Link to={'/login'} className="reg-actions-link">
+        <NavLink to={Link.login} className="reg-actions-link">
           To login
-        </Link>
+        </NavLink>
       </div>
     </form>
   )

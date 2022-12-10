@@ -53,7 +53,7 @@ export const LoginPage = () => {
         <button type="submit" onClick={handleSubmit} className="login-actions-button">
           Login
         </button>
-        <NavLink to={'/register'} className="login-actions-link">
+        <NavLink to={Link.register} className="login-actions-link">
           Registration
         </NavLink>
       </div>

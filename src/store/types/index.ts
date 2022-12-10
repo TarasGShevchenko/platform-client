@@ -2,7 +2,7 @@ import { ActionType } from 'typesafe-actions'
 import { Epic } from 'redux-observable'
 
 import * as actions from '../actions'
-import { UserApi, AuthApi, PostApi } from '../../api'
+import { UserApi, AuthApi, PostApi, LikesApi } from '../../api'
 import { AppState } from '../redusers/app'
 import { UserState } from '../redusers/users'
 import { AuthState } from '../redusers/auth'
@@ -35,9 +35,19 @@ export type IPost = {
   author: IUser
   userId: number
   commentCount: number
+  postLikes: string[] | null
   createdAt: string
   updatedAt: string
 }
+
+export type ILike = {
+  id: number
+  userId: number
+  postId: number
+  createdAt: string
+  updatedAt: string
+}
+
 export type IComment = {
   id: number
   content: string
@@ -66,6 +76,7 @@ export type Services = {
   AuthApi: typeof AuthApi
   UserApi: typeof UserApi
   PostApi: typeof PostApi
+  LikesApi: typeof LikesApi
 }
 
 export type RootAction = ActionType<typeof actions>

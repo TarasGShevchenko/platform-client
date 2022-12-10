@@ -25,7 +25,7 @@ export const MainPage = () => {
   return (
     <div className="main-container">
       {posts.map((post, idx) => (
-        <PostItem post={post} main={true} key={idx} />
+        <PostItem post={post} main={true} key={idx} reloadPosts={refetch} />
       ))}
     </div>
   )
