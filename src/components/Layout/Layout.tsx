@@ -1,13 +1,18 @@
 import React, { FC, ReactNode } from 'react'
+import { styled } from '@mui/material'
 
 import { Navbar } from '../Navbar'
-import './Layout.css'
+
+const LayoutContainer = styled('div')(() => ({
+  maxWidth: 800,
+  margin: 'auto',
+}))
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <React.Fragment>
       <Navbar />
-      <div className="container">{children}</div>
+      <LayoutContainer>{children}</LayoutContainer>
     </React.Fragment>
   )
 }

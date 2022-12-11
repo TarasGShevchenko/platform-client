@@ -5,14 +5,63 @@ import { FiHome } from 'react-icons/fi'
 import { MdPhotoCamera } from 'react-icons/md'
 import { ImUsers } from 'react-icons/im'
 import { VscAccount } from 'react-icons/vsc'
+import { styled } from '@mui/material'
 
 import { WebsiteLogo } from '../WebsiteLogo'
 import { Sign } from '../Sign'
 import { checkIsAuth, getMeSelector } from '../../store/selectors'
 import { Link } from '../../enums'
-
-import './Navbar.css'
 import { selectUserAction } from '../../store/actions'
+
+const NavbarContainer = styled('div')(() => ({
+  position: 'sticky',
+  top: 0,
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '0 10px',
+  height: 80,
+  zIndex: 9999,
+  background: 'linear-gradient(to right, #060623, #000000)' || '#000000',
+}))
+
+const NavbarUl = styled('ul')(() => ({
+  position: 'relative',
+  display: 'flex',
+  borderRadius: 10,
+}))
+
+const NavbarList = styled('li')(() => ({
+  listStyle: 'none',
+}))
+
+const NavbarLink = styled(NavLink)(() => ({
+  position: 'relative',
+  display: 'inline-block',
+  textDecoration: 'none',
+  color: '#fff',
+  padding: '5px 30px',
+  zIndex: 1000,
+  ['&.active span']: {
+    color: '#5da6ff',
+    opacity: 1,
+    paddingBottom: 8,
+    borderBottom: '3px solid #5da6ff',
+  },
+}))
+
+const NavbarIcon = styled('span')(() => ({
+  display: 'flex',
+  color: '#fff',
+  padding: 12,
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  fontSize: '1.5em',
+  pointerEvents: 'none',
+  opacity: '40%',
+  transition: '0.2s',
+}))
 
 export const Navbar = () => {
   const isAuth = useSelector(checkIsAuth)
@@ -24,43 +73,41 @@ export const Navbar = () => {
   }, [dispatch, me])
 
   return (
-    <>
-      <div className="navbar-container">
-        <WebsiteLogo />
-        {isAuth && (
-          <ul className="navbar-ul">
-            <li className="navbar-list">
-              <NavLink to={Link.home} className="nav-link">
-                <span className="navbar-icon">
-                  <FiHome />
-                </span>
-              </NavLink>
-            </li>
-            <li className="navbar-list">
-              <NavLink to={Link.new} className="nav-link">
-                <span className="navbar-icon">
-                  <MdPhotoCamera />
-                </span>
-              </NavLink>
-            </li>
-            <li className="navbar-list">
-              <NavLink to={Link.users} className="nav-link">
-                <span className="navbar-icon">
-                  <ImUsers />
-                </span>
-              </NavLink>
-            </li>
-            <li className="navbar-list">
-              <NavLink to={`${Link.profile}/${me?.username}`} className="nav-link" onClick={goToMyProfile}>
-                <span className="navbar-icon">
-                  <VscAccount />
-                </span>
-              </NavLink>
-            </li>
-          </ul>
-        )}
-        <Sign />
-      </div>
-    </>
+    <NavbarContainer>
+      <WebsiteLogo />
+      {isAuth && (
+        <NavbarUl>
+          <NavbarList>
+            <NavbarLink to={Link.home}>
+              <NavbarIcon>
+                <FiHome />
+              </NavbarIcon>
+            </NavbarLink>
+          </NavbarList>
+          <NavbarList>
+            <NavbarLink to={Link.new}>
+              <NavbarIcon>
+                <MdPhotoCamera />
+              </NavbarIcon>
+            </NavbarLink>
+          </NavbarList>
+          <NavbarList>
+            <NavbarLink to={Link.users}>
+              <NavbarIcon>
+                <ImUsers />
+              </NavbarIcon>
+            </NavbarLink>
+          </NavbarList>
+          <NavbarList>
+            <NavbarLink to={`${Link.profile}/${me?.username}`} onClick={goToMyProfile}>
+              <NavbarIcon>
+                <VscAccount />
+              </NavbarIcon>
+            </NavbarLink>
+          </NavbarList>
+        </NavbarUl>
+      )}
+      <Sign />
+    </NavbarContainer>
   )
 }
