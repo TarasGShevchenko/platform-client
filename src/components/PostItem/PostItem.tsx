@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { FaTrash } from 'react-icons/fa'
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
+import { styled } from '@mui/material'
 
 import { IPost } from '../../store/types'
 import { Avatar } from '../Avatar'
@@ -13,7 +14,161 @@ import { getMeSelector, tokenSelector } from '../../store/selectors'
 import { selectUserAction } from '../../store/actions'
 import { Link } from '../../enums'
 
-import './PostItem.css'
+const PostItemContainer = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  margin: '10px auto',
+  padding: 20,
+  width: '100%',
+  minWidth: 350,
+  background: 'rgba(255, 255, 255, 0.1)',
+  boxShadow: '0 25px 45px rgba(0, 0, 0, 0.1)',
+  border: '1px solid rgba(255, 255, 255, 0.5)',
+  borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+  borderRadius: 10,
+  zIndex: 10,
+  backdropFilter: 'blur(25px)',
+}))
+const PostItemPhotoContainer = styled('div')(() => ({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  flexBasis: '25%',
+  flexGrow: 1,
+}))
+
+const PostItemPhoto = styled('div')<{ image: boolean }>(({ image }) => ({
+  display: 'flex',
+  borderRadius: 2,
+  ...(!image && { height: 0 }),
+}))
+
+const PostItemPhotoImg = styled('img')(() => ({
+  objectFit: 'cover',
+  width: '100%',
+}))
+
+const PostItemInfo = styled('div')(() => ({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  paddingTop: 8,
+}))
+
+const PostItemInfoUser = styled('div')(() => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+}))
+
+const PostItemInfoUsername = styled('div')(() => ({
+  color: 'white',
+  opacity: 50,
+  fontSize: 26,
+  fontWeight: 700,
+  cursor: 'pointer',
+  ['&:hover']: {
+    textDecoration: 'underline',
+  },
+}))
+
+const PostLikeContainer = styled('div')(() => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+}))
+
+const PostLike = styled('div')(() => ({
+  padding: 12,
+  fontSize: '1.5em',
+  color: 'white',
+}))
+
+const PostLikeCount = styled('span')(() => ({
+  paddingBottom: 6,
+  fontSize: 24,
+  color: 'white',
+}))
+
+const PostDate = styled('div')(() => ({
+  opacity: 50,
+  color: 'white',
+}))
+
+const PostItemInner = styled('div')(() => ({
+  width: '100%',
+  paddingTop: 8,
+  color: 'white',
+  opacity: 60,
+}))
+
+const PostContentTitle = styled('div')(() => ({
+  padding: '16px 6px 4px',
+  wordBreak: 'break-all',
+}))
+
+const PostContentText = styled('div')(() => ({
+  padding: '8px 6px',
+  wordBreak: 'break-all',
+}))
+
+const PostContentSpan = styled('div')(() => ({
+  padding: 6,
+  fontSize: 14,
+}))
+
+const PostItemActions = styled('div')(() => ({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  paddingTop: 8,
+}))
+
+const PostView = styled('div')(() => ({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'left',
+  alignItems: 'flex-end',
+  paddingTop: 8,
+  color: 'white',
+  fontSize: 12,
+  paddingLeft: 20,
+  cursor: 'pointer',
+  ['&:hover']: {
+    color: '#5da6ff',
+  },
+}))
+
+const PostUserIcons = styled('div')(() => ({
+  display: 'flex',
+  justifyContent: 'right',
+  alignItems: 'flex-end',
+  padding: '5px 20px',
+  position: 'absolute',
+  right: 20,
+}))
+
+const PostIconDelete = styled('button')(() => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  background: 'transparent',
+  border: 'none',
+  gap: 8,
+  color: 'white',
+  transition: '0.5s',
+  opacity: 50,
+  cursor: 'pointer',
+  ['&:hover']: {
+    color: '#e91e63',
+    boxShadow: '0 0 60px #e91e63',
+  },
+}))
 
 interface IProps {
   post: IPost
@@ -36,7 +191,6 @@ export const PostItem: FC<IProps> = ({
   const isLiked = postLikes && postLikes?.some((like) => +like === me?.id)
 
   const likePost = useCallback(async () => {
-    console.log('!!!!')
     me && (await LikesApi.like(me.id, id, token))
     reloadPosts && reloadPosts()
   }, [id, me, reloadPosts, token])
@@ -62,64 +216,56 @@ export const PostItem: FC<IProps> = ({
   }, [id, token, reloadPosts])
 
   return (
-    <div className="post-item-container">
-      <div className="post-item-wrapper">
-        <div className="post-item-wrapper-photo-container">
-          <div className={image ? 'post-item-wrapper-photo' : 'post-item-wrapper-photo empty'}>
-            {image && (
-              <img src={`${process.env.REACT_APP_API_URL}${image}`} alt="img" className="post-item-wrapper-img" />
-            )}
-          </div>
-        </div>
-        <div className="post-item-wrapper-info">
-          <div className="post-item-wrapper-info-user" onClick={goToUserPosts}>
-            <Avatar
-              id={userId}
-              avatarLogo={author.avatarLogo}
-              avatarBackground={author.avatarBackground}
-              username={author.username}
-            />
-            <div className="post-item-wrapper-username">{author.username}</div>
-          </div>
-          <div className="post-like-container">
-            <div className="post-like">
-              {isLiked ? <AiFillHeart color="#ff1800" onClick={unlikePost} /> : <AiOutlineHeart onClick={likePost} />}
-            </div>
-            <span className="post-like-count">{postLikes?.length || 0}</span>
-          </div>
-          <div className="post-item-wrapper-date">
-            <Moment date={updatedAt} format="D MMM YYYY" />
-            <br />
-            <Moment date={updatedAt} format="h:mm a " style={{ fontSize: 12 }} />
-          </div>
-        </div>
-        <div className="post-item-wrapper-inner">
-          <div className="post-item-wrapper-title">
-            <div className="post-item-wrapper-span">Title:</div>
-            &nbsp;
-            {title}
-          </div>
-          <div className="post-item-wrapper-text">
-            <div className="post-item-wrapper-span">Content:</div>
-            &nbsp;
-            {content}
-          </div>
-        </div>
-        <div className="post-item-wrapper-actions">
-          {!postPage && (
-            <div className="post-item-wrapper-content-view" onClick={goToCurrentPost}>
-              View comments...({commentCount || 0})
-            </div>
-          )}
-          {!main && me?.id === author.id && (
-            <div className="post-item-wrapper-user-icons">
-              <button className="post-item-wrapper-user-icons-button" onClick={removePostHandler}>
-                <FaTrash />
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+    <PostItemContainer>
+      <PostItemPhotoContainer>
+        <PostItemPhoto image={!!image}>
+          {image && <PostItemPhotoImg src={`${process.env.REACT_APP_API_URL}${image}`} alt="img" />}
+        </PostItemPhoto>
+      </PostItemPhotoContainer>
+      <PostItemInfo>
+        <PostItemInfoUser onClick={goToUserPosts}>
+          <Avatar
+            id={userId}
+            avatarLogo={author.avatarLogo}
+            avatarBackground={author.avatarBackground}
+            username={author.username}
+          />
+          <PostItemInfoUsername>{author.username}</PostItemInfoUsername>
+        </PostItemInfoUser>
+        <PostLikeContainer>
+          <PostLike>
+            {isLiked ? <AiFillHeart color="#ff1800" onClick={unlikePost} /> : <AiOutlineHeart onClick={likePost} />}
+          </PostLike>
+          <PostLikeCount>{postLikes?.length || 0}</PostLikeCount>
+        </PostLikeContainer>
+        <PostDate>
+          <Moment date={updatedAt} format="D MMM YYYY" />
+          <br />
+          <Moment date={updatedAt} format="h:mm a " style={{ fontSize: 12 }} />
+        </PostDate>
+      </PostItemInfo>
+      <PostItemInner>
+        <PostContentTitle>
+          <PostContentSpan>Title:</PostContentSpan>
+          &nbsp;
+          {title}
+        </PostContentTitle>
+        <PostContentText>
+          <PostContentSpan>Content:</PostContentSpan>
+          &nbsp;
+          {content}
+        </PostContentText>
+      </PostItemInner>
+      <PostItemActions>
+        {!postPage && <PostView onClick={goToCurrentPost}>View comments...({commentCount || 0})</PostView>}
+        {!main && me?.id === author.id && (
+          <PostUserIcons>
+            <PostIconDelete onClick={removePostHandler}>
+              <FaTrash />
+            </PostIconDelete>
+          </PostUserIcons>
+        )}
+      </PostItemActions>
+    </PostItemContainer>
   )
 }

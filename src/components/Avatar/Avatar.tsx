@@ -1,4 +1,5 @@
 import React, { FC, useMemo } from 'react'
+import { styled } from '@mui/material'
 
 import stock from '../../assets/stock.png'
 import avatar from '../../assets/avatar.png'
@@ -9,8 +10,6 @@ import kitty from '../../assets/kitty.png'
 import zombie from '../../assets/zombie.png'
 import superhero from '../../assets/superhero.png'
 
-import './Avatar.css'
-
 type AvatarProps = {
   username: string
   id: number
@@ -20,6 +19,27 @@ type AvatarProps = {
 }
 
 const defaultColors = ['#dd97ff', '#8a33f7', '#4c50ff', '#4cfff0', '#4cff74', '#a2af00', '#ff6161']
+
+const AvatarContainer = styled('div')<{ large: boolean }>(({ large }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: large ? 200 : 40,
+  height: large ? 200 : 40,
+  background: 'rgb(147 197 253)',
+  border: `${large ? 5 : 2}px solid white`,
+  borderRadius: 9999,
+  flexShrink: 0,
+  marginRight: 16,
+  ...(large && {
+    margin: 32,
+    fontSize: 80,
+  }),
+}))
+
+const AvatarImg = styled('img')(() => ({
+  width: '100%',
+}))
 
 export const Avatar: FC<AvatarProps> = ({ avatarLogo, avatarBackground, isProfile }) => {
   const getUserLogo = useMemo(
@@ -32,8 +52,8 @@ export const Avatar: FC<AvatarProps> = ({ avatarLogo, avatarBackground, isProfil
     return defaultColors[index]
   }, [])
   return (
-    <div className={`avatar-container${isProfile ? ' large' : ''}`} style={{ background: avatarBackground || color }}>
-      <img className="avatar-img" src={getUserLogo} alt={`${avatarLogo || 'stock'}`} />
-    </div>
+    <AvatarContainer large={!!isProfile} style={{ background: avatarBackground || color }}>
+      <AvatarImg src={getUserLogo} alt={`${avatarLogo || 'stock'}`} />
+    </AvatarContainer>
   )
 }

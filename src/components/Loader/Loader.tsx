@@ -1,6 +1,14 @@
 import React from 'react'
+import { CircularProgress, styled } from '@mui/material'
 
-import './Loader.css'
+const LoaderContainer = styled('div')(() => ({
+  margin: '10px auto',
+  textAlign: 'center',
+}))
 export const Loader = () => {
-  return <div className="loader" />
+  return (
+    <LoaderContainer>
+      <CircularProgress />
+    </LoaderContainer>
+  )
 }
