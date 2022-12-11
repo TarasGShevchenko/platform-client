@@ -1,12 +1,74 @@
 import React, { useState, useEffect, useCallback, ChangeEvent } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { styled } from '@mui/material'
 
 import { registerUserRequest } from '../../store/actions'
 import { checkIsAuth } from '../../store/selectors'
 import { Link } from '../../enums'
 
-import './RegisterPage.css'
+const RegisterContainer = styled('form')(() => ({
+  width: 400,
+  margin: '20px auto',
+  padding: 20,
+  minWidth: 350,
+  background: 'rgba(255, 255, 255, 0.1)',
+  boxShadow: '0 25px 45px rgba(0, 0, 0, 0.1)',
+  border: '1px solid rgba(255, 255, 255, 0.5)',
+  borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+  borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+  borderRadius: 10,
+  zIndex: 10,
+  backdropFilter: 'blur(25px)',
+}))
+
+const RegisterTitle = styled('h1')(() => ({
+  color: 'white',
+  textAlign: 'center',
+}))
+
+const RegisterLabel = styled('label')(() => ({
+  color: 'rgb(156 163 175)',
+}))
+
+const RegisterInput = styled('input')(() => ({
+  width: '100%',
+  background: 'gray',
+  margin: '6px 0',
+  borderRadius: 8,
+  borderWidth: 1,
+  padding: '4px 8px',
+  outline: 'none',
+  ['&::placeholder']: {
+    color: 'rgb(55 65 81)',
+  },
+}))
+
+const RegisterActions = styled('div')(() => ({
+  display: 'flex',
+  gap: 32,
+  marginTop: 16,
+  justifyContent: 'center',
+}))
+
+const RegisterSubmit = styled('button')(() => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  color: 'white',
+  border: 'none',
+  background: 'rgb(75 85 99)',
+  borderRadius: 2,
+  padding: '4px 8px',
+  cursor: 'pointer',
+}))
+
+const RegisterLink = styled(NavLink)(() => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  color: 'white',
+}))
 
 export const RegisterPage = () => {
   const [username, setUsername] = useState('')
@@ -38,35 +100,32 @@ export const RegisterPage = () => {
   }, [isAuth, navigate])
 
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="reg-container">
-      <h1 className="reg-title">Registration</h1>
-      <label className="reg-label">
+    <RegisterContainer onSubmit={(e) => e.preventDefault()}>
+      <RegisterTitle>Registration</RegisterTitle>
+      <RegisterLabel>
         Username:
-        <input type="text" value={username} onChange={typingUsername} placeholder="Username" className="reg-input" />
-      </label>
-      <label className="reg-label">
+        <RegisterInput type="text" value={username} onChange={typingUsername} placeholder="Username" />
+      </RegisterLabel>
+      <RegisterLabel>
         Email:
-        <input type="text" value={email} onChange={typingEmail} placeholder="Email" className="reg-input" />
-      </label>
-      <label className="reg-label">
+        <RegisterInput type="text" value={email} onChange={typingEmail} placeholder="Email" />
+      </RegisterLabel>
+      <RegisterLabel>
         Password:
-        <input
+        <RegisterInput
           type="password"
           value={password}
           onChange={typingPassword}
           placeholder="Password"
-          className="reg-input"
           autoComplete="on"
         />
-      </label>
-      <div className="reg-actions">
-        <button type="submit" onClick={handleSubmit} className="reg-actions-button">
+      </RegisterLabel>
+      <RegisterActions>
+        <RegisterSubmit type="submit" onClick={handleSubmit}>
           Submit
-        </button>
-        <NavLink to={Link.login} className="reg-actions-link">
-          To login
-        </NavLink>
-      </div>
-    </form>
+        </RegisterSubmit>
+        <RegisterLink to={Link.login}>To login</RegisterLink>
+      </RegisterActions>
+    </RegisterContainer>
   )
 }
