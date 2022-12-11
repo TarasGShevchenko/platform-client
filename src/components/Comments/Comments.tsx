@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useQuery } from 'react-query'
+import { styled } from '@mui/material'
 
 import { getMeSelector, tokenSelector } from '../../store/selectors'
 import { IPost } from '../../store/types'
@@ -8,7 +9,51 @@ import { CommentsApi } from '../../api'
 import { Loader } from '../Loader'
 import { CommentItem } from '../CommentItem'
 
-import './Comments.css'
+const CommentsContainer = styled('div')(() => ({
+  width: '100%',
+  maxHeight: 320,
+  padding: '10px 20px',
+  background: 'transparent',
+  display: 'flex',
+  flexDirection: 'column',
+}))
+
+const CommentsForm = styled('form')(() => ({
+  display: 'flex',
+  gap: 8,
+  margin: 10,
+}))
+
+const CommentsInput = styled('input')(() => ({
+  color: 'black',
+  width: '100%',
+  borderRadius: 5,
+  background: 'rgba(255, 255, 255, 0.5)',
+  borderWidth: 1,
+  padding: 8,
+  outline: 'none',
+  ['&::placeholder']: {
+    color: 'rgb(55 65 81)',
+  },
+}))
+
+const CommentsSubmit = styled('button')(() => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  background: 'rgb(75 85 99)',
+  color: 'white',
+  border: 'none',
+  borderRadius: 5,
+  padding: '8px 16px',
+  cursor: 'pointer',
+}))
+
+const CommentsWrapper = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'scroll',
+}))
 
 interface IProps {
   post: IPost
@@ -53,28 +98,21 @@ export const Comments: FC<IProps> = ({ post }) => {
   }, [refetch, post])
 
   return (
-    <div className="comments-container">
-      <form className="comments-form" onSubmit={addCommentHandler}>
-        <input
-          type="text"
-          value={comment}
-          onChange={typingComment}
-          placeholder="Comment"
-          maxLength={120}
-          className="comments-input"
-        />
-        <button type="submit" className="comments-button">
+    <CommentsContainer>
+      <CommentsForm onSubmit={addCommentHandler}>
+        <CommentsInput type="text" value={comment} onChange={typingComment} placeholder="Comment" maxLength={120} />
+        <CommentsSubmit type="submit" className="comments-button">
           Submit
-        </button>
-      </form>
+        </CommentsSubmit>
+      </CommentsForm>
 
-      <div className="comments-wrapper">
+      <CommentsWrapper>
         {isLoading || !comments ? (
           <Loader />
         ) : (
           comments.map((cmt) => <CommentItem key={cmt.id} comment={cmt} func={refetch} />)
         )}
-      </div>
-    </div>
+      </CommentsWrapper>
+    </CommentsContainer>
   )
 }
