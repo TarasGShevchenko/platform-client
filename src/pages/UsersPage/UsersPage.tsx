@@ -10,14 +10,13 @@ import { selectUserAction, setUsersFilter } from '../../store/actions'
 import { Loader } from '../../components/Loader'
 
 const UsersContainer = styled('div')(() => ({
-  margin: 'auto',
+  margin: 10,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   maxHeight: 700,
-  width: 400,
-  minWidth: 350,
+  minWidth: 320,
   minHeight: 400,
   background: 'rgba(255, 255, 255, 0.1)',
   boxShadow: '0 25px 45px rgba(0, 0, 0, 0.1)',

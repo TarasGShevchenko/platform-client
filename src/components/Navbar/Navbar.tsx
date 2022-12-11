@@ -36,7 +36,7 @@ const NavbarList = styled('li')(() => ({
   listStyle: 'none',
 }))
 
-const NavbarLink = styled(NavLink)(() => ({
+const NavbarLink = styled(NavLink)(({ theme }) => ({
   position: 'relative',
   display: 'inline-block',
   textDecoration: 'none',
@@ -48,6 +48,9 @@ const NavbarLink = styled(NavLink)(() => ({
     opacity: 1,
     paddingBottom: 8,
     borderBottom: '3px solid #5da6ff',
+  },
+  [theme.breakpoints.down('md')]: {
+    padding: '5px 8px',
   },
 }))
 

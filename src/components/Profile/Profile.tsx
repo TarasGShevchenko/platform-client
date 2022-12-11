@@ -12,16 +12,14 @@ import { LogoPicker } from '../LogoPicker'
 import { BackgroundPicker } from '../BackgroundPicker'
 import { IUser } from '../../store/types'
 
-const ProfileContainer = styled('div')(() => ({
-  position: 'relative',
-  margin: 'auto',
+const ProfileContainer = styled('div')(({ theme }) => ({
+  margin: theme.spacing(1.5),
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   padding: 20,
-  marginBottom: 20,
-  minWidth: 350,
+  minWidth: 320,
   minHeight: 400,
   background: 'rgba(255, 255, 255, 0.1)',
   boxShadow: '0 25px 45px rgba(0, 0, 0, 0.1)',
@@ -29,8 +27,10 @@ const ProfileContainer = styled('div')(() => ({
   borderRight: '1px solid rgba(255, 255, 255, 0.2)',
   borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
   borderRadius: 10,
-  zIndex: 10,
   backdropFilter: 'blur(25px)',
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(1),
+  },
 }))
 
 const Settings = styled('form')<{ open: boolean }>(({ open }) => ({

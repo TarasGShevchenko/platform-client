@@ -1,7 +1,7 @@
 import React from 'react'
 import { styled } from '@mui/material'
 
-const LogoContainer = styled('div')(() => ({
+const LogoContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   position: 'relative',
   color: '#fff',
@@ -14,6 +14,9 @@ const LogoContainer = styled('div')(() => ({
   fontWeight: 700,
   ['&:hover']: {
     boxShadow: '0 0 10px #5da6ff, 0 0 20px #5da6ff, 0 0 30px #5da6ff, 0 0 40px #5da6ff',
+  },
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
   },
 }))
 export const WebsiteLogo = () => {

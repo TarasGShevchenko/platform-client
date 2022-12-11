@@ -8,10 +8,9 @@ import { createPostRequest } from '../../store/actions'
 import { Link } from '../../enums'
 
 const AddPostContainer = styled('form')(() => ({
-  margin: 'auto',
+  margin: 10,
   padding: 20,
-  width: 400,
-  minWidth: 350,
+  minWidth: 320,
   minHeight: 400,
   background: 'rgba(255, 255, 255, 0.1)',
   boxShadow: '0 25px 45px rgba(0, 0, 0, 0.1)',

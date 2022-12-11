@@ -14,15 +14,14 @@ import { getMeSelector, tokenSelector } from '../../store/selectors'
 import { selectUserAction } from '../../store/actions'
 import { Link } from '../../enums'
 
-const PostItemContainer = styled('div')(() => ({
+const PostItemContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  margin: '10px auto',
+  margin: theme.spacing(1.5),
   padding: 20,
-  width: '100%',
-  minWidth: 350,
+  minWidth: 320,
   background: 'rgba(255, 255, 255, 0.1)',
   boxShadow: '0 25px 45px rgba(0, 0, 0, 0.1)',
   border: '1px solid rgba(255, 255, 255, 0.5)',
@@ -31,6 +30,9 @@ const PostItemContainer = styled('div')(() => ({
   borderRadius: 10,
   zIndex: 10,
   backdropFilter: 'blur(25px)',
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(1),
+  },
 }))
 const PostItemPhotoContainer = styled('div')(() => ({
   width: '100%',
@@ -65,7 +67,7 @@ const PostItemInfoUser = styled('div')(() => ({
   alignItems: 'center',
 }))
 
-const PostItemInfoUsername = styled('div')(() => ({
+const PostItemInfoUsername = styled('div')(({ theme }) => ({
   color: 'white',
   opacity: 50,
   fontSize: 26,
@@ -73,6 +75,9 @@ const PostItemInfoUsername = styled('div')(() => ({
   cursor: 'pointer',
   ['&:hover']: {
     textDecoration: 'underline',
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: 18,
   },
 }))
 
@@ -82,21 +87,30 @@ const PostLikeContainer = styled('div')(() => ({
   alignItems: 'center',
 }))
 
-const PostLike = styled('div')(() => ({
-  padding: 12,
+const PostLike = styled('div')(({ theme }) => ({
+  padding: theme.spacing(1.5),
   fontSize: '1.5em',
   color: 'white',
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(1),
+  },
 }))
 
-const PostLikeCount = styled('span')(() => ({
+const PostLikeCount = styled('span')(({ theme }) => ({
   paddingBottom: 6,
   fontSize: 24,
   color: 'white',
+  [theme.breakpoints.down('sm')]: {
+    fontSize: 18,
+  },
 }))
 
-const PostDate = styled('div')(() => ({
+const PostDate = styled('div')(({ theme }) => ({
   opacity: 50,
   color: 'white',
+  [theme.breakpoints.down('sm')]: {
+    fontSize: 12,
+  },
 }))
 
 const PostItemInner = styled('div')(() => ({
@@ -121,12 +135,13 @@ const PostContentSpan = styled('div')(() => ({
   fontSize: 14,
 }))
 
-const PostItemActions = styled('div')(() => ({
+const PostItemActions = styled('div')(({ theme }) => ({
   width: '100%',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  paddingTop: 8,
+  paddingTop: theme.spacing(1),
+  paddingBottom: theme.spacing(1),
 }))
 
 const PostView = styled('div')(() => ({
@@ -159,10 +174,8 @@ const PostIconDelete = styled('button')(() => ({
   alignItems: 'center',
   background: 'transparent',
   border: 'none',
-  gap: 8,
   color: 'white',
   transition: '0.5s',
-  opacity: 50,
   cursor: 'pointer',
   ['&:hover']: {
     color: '#e91e63',

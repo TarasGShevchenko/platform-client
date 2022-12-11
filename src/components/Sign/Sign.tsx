@@ -9,15 +9,18 @@ import { logout } from '../../store/actions'
 import { checkIsAuth } from '../../store/selectors'
 import { Link } from '../../enums'
 
-const SignContainer = styled('div')(() => ({
+const SignContainer = styled('div')(({ theme }) => ({
   position: 'relative',
   display: 'flex',
   color: '#fff',
   marginLeft: 50,
   padding: 10,
+  [theme.breakpoints.down('md')]: {
+    marginLeft: 0,
+  },
 }))
 
-const SignAction = styled('div')(() => ({
+const SignAction = styled('div')(({ theme }) => ({
   fontSize: '1.5em',
   opacity: 0.5,
   transition: '0.5s',
@@ -27,6 +30,9 @@ const SignAction = styled('div')(() => ({
     color: '#5da6ff',
     opacity: 1,
     textShadow: '#5da6ff',
+  },
+  [theme.breakpoints.down('md')]: {
+    padding: theme.spacing(1),
   },
 }))
 
