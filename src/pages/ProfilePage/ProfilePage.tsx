@@ -8,8 +8,6 @@ import { Loader } from '../../components/Loader'
 import { PostItem } from '../../components/PostItem'
 import { Profile } from '../../components/Profile'
 
-import './ProfilePage.css'
-
 export const ProfilePage: FC = () => {
   const token = useSelector(tokenSelector)
   const selectedUser = useSelector(selectedUserSelector)
